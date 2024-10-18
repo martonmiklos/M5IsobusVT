@@ -31,7 +31,7 @@
 
 
 //==============================================================================
-boolean MacroCANMsgPGN(TVT_Net *pVT_Net,CANMsg *pMsg,boolean macro);
+bool MacroCANMsgPGN(TVT_Net *pVT_Net,CANMsg *pMsg,bool macro);
 
 //==============================================================================
 //Commands and Messages
@@ -49,7 +49,7 @@ boolean MacroCANMsgPGN(TVT_Net *pVT_Net,CANMsg *pMsg,boolean macro);
     
     uint16_t VTObjectReference=0xFFFF;
     //
-    boolean setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
+    bool setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
 };
 
 
@@ -65,12 +65,12 @@ boolean MacroCANMsgPGN(TVT_Net *pVT_Net,CANMsg *pMsg,boolean macro);
     uint8_t  VTEvent=VTOnShow;  
     //
     uint16_t VTObjectReference=0xFFFF;
-    boolean  VTHidden=false;
+    bool  VTHidden=false;
     // 
     uint8_t  VTAttrStrNr=1;
-    String   VTAttrStr[1]={"VTHidden"};
+    QString   VTAttrStr[1]={"VTHidden"};
     //
-    boolean setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
+    bool setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
 };
   
 
@@ -86,12 +86,12 @@ boolean MacroCANMsgPGN(TVT_Net *pVT_Net,CANMsg *pMsg,boolean macro);
     uint8_t  VTEvent=VTOnEnable;  
     //
     uint16_t VTObjectReference=0xFFFF;
-    boolean  VTEnabled=true;
+    bool  VTEnabled=true;
     //
     uint8_t  VTAttrStrNr=1;
-    String   VTAttrStr[1]={"VTEnabled"};
+    QString   VTAttrStr[1]={"VTEnabled"};
     //
-    boolean setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
+    bool setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
 };
 
 
@@ -107,14 +107,14 @@ boolean MacroCANMsgPGN(TVT_Net *pVT_Net,CANMsg *pMsg,boolean macro);
     uint8_t  VTEvent=VTOnInputFieldSelection;  
     //
     uint16_t VTObjectReference=0xFFFF;
-    boolean  VTSelect=false;
+    bool  VTSelect=false;
     //
     //
     uint8_t  VTAttrStrNr=1;
-    String   VTAttrStr[1]={"VTSelect"};
+    QString   VTAttrStr[1]={"VTSelect"};
     
     //
-    boolean setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
+    bool setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
 };
   
 
@@ -136,9 +136,9 @@ boolean MacroCANMsgPGN(TVT_Net *pVT_Net,CANMsg *pMsg,boolean macro);
     uint16_t VTOffTimeDuration=1000;
     //
     uint8_t  VTAttrStrNr=4;
-    String   VTAttrStr[4]={"VTRepetition","VTFrequency","VTOnTimeDuration","VTOffTimeDuration"};
+    QString   VTAttrStr[4]={"VTRepetition","VTFrequency","VTOnTimeDuration","VTOffTimeDuration"};
     //
-    boolean setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
+    bool setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
 };
 
 
@@ -157,9 +157,9 @@ boolean MacroCANMsgPGN(TVT_Net *pVT_Net,CANMsg *pMsg,boolean macro);
     uint8_t VTAudioVolume     =100;
     //
     uint8_t  VTAttrStrNr=1;
-    String   VTAttrStr[1]={"VTAudioVolume"};
+    QString   VTAttrStr[1]={"VTAudioVolume"};
     //
-    boolean setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
+    bool setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
 };
 
   
@@ -180,9 +180,9 @@ boolean MacroCANMsgPGN(TVT_Net *pVT_Net,CANMsg *pMsg,boolean macro);
     int8_t   VTyChange=0;
     //
     uint8_t  VTAttrStrNr=4;
-    String   VTAttrStr[4]={"VTObjectReference","VTParentReference","VTxChange","VTyChange"};
+    QString   VTAttrStr[4]={"VTObjectReference","VTParentReference","VTxChange","VTyChange"};
     //
-    boolean setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
+    bool setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
 };
 
   
@@ -203,9 +203,9 @@ boolean MacroCANMsgPGN(TVT_Net *pVT_Net,CANMsg *pMsg,boolean macro);
     int16_t  VTyPos=0;
     //
     uint8_t  VTAttrStrNr=4;
-    String   VTAttrStr[4]={"VTObjectReference","VTParentReference","VTxPos","VTyPos"};
+    QString   VTAttrStr[4]={"VTObjectReference","VTParentReference","VTxPos","VTyPos"};
     //
-    boolean setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net,LoopbackStream *pStream);
+    bool setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net,LoopbackStream *pStream);
 };
   
 
@@ -227,9 +227,9 @@ class TVTChangeSize :public TVTObject {
     uint16_t VTHeight=0;
     //
     uint8_t  VTAttrStrNr=2;
-    String   VTAttrStr[2]={"VTWidth","VTHeight"};
+    QString   VTAttrStr[2]={"VTWidth","VTHeight"};
     //
-    boolean setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
+    bool setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
 };
 
 
@@ -248,9 +248,9 @@ class TVTChangeBackgroundColour :public TVTObject {
     uint8_t  VTBackgroundColour=0;
     //
     uint8_t  VTAttrStrNr=1;
-    String   VTAttrStr[1]={"VTBackgroundColour"};
+    QString   VTAttrStr[1]={"VTBackgroundColour"};
     //
-    boolean setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
+    bool setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
 };
 
 
@@ -269,9 +269,9 @@ class TVTChangeNumericValue :public TVTObject {
     uint32_t VTValue=0;
     //
     uint8_t  VTAttrStrNr=1;
-    String   VTAttrStr[1]={"VTValue"};
+    QString   VTAttrStr[1]={"VTValue"};
     //
-    boolean setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
+    bool setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
 };
 
 
@@ -289,12 +289,12 @@ class TVTChangeEndPoint :public TVTObject {
     uint16_t VTObjectReference=0xFFFF;
     uint16_t VTWidth=50;
     uint16_t VTHeight=50;
-    boolean  VTLineDirection=false;
+    bool  VTLineDirection=false;
     //
     uint8_t  VTAttrStrNr=1;
-    String   VTAttrStr[1]={"VTLineDirection"};
+    QString   VTAttrStr[1]={"VTLineDirection"};
     //
-    boolean setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
+    bool setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
 };
 
 
@@ -316,9 +316,9 @@ class TVTChangeFontAttributes :public TVTObject {
     uint8_t  VTFontStyle=0;
     //
     uint8_t  VTAttrStrNr=4;
-    String   VTAttrStr[4]={"VTFontColour","VTFontSize","VTFontType","VTFontStyle"};
+    QString   VTAttrStr[4]={"VTFontColour","VTFontSize","VTFontType","VTFontStyle"};
     //
-    boolean setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
+    bool setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
 };
 
 
@@ -340,9 +340,9 @@ class TVTChangeLineAttributes :public TVTObject {
     uint16_t VTLineArt=0xFFFF; 
     //
     uint8_t  VTAttrStrNr=3;
-    String   VTAttrStr[3]={"VTLineColour","VTLineWidth","VTLineArt"};
+    QString   VTAttrStr[3]={"VTLineColour","VTLineWidth","VTLineArt"};
     //
-    boolean setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
+    bool setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
 };
 
 
@@ -363,9 +363,9 @@ class TVTChangeFillAttributes :public TVTObject {
     uint16_t VTFillPattern=0xFFFF; 
     //
     uint8_t  VTAttrStrNr=3;
-    String   VTAttrStr[3]={"VTFillColour","VTFillType","VTFillPattern"};
+    QString   VTAttrStr[3]={"VTFillColour","VTFillType","VTFillPattern"};
     //
-    boolean setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
+    bool setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
 };
 
 
@@ -384,9 +384,9 @@ class TVTChangeActiveMask :public TVTObject {
     uint16_t VTNewActiveMask=0xFFFF;
     //
     uint8_t  VTAttrStrNr=2;
-    String   VTAttrStr[2]={"VTWorkingSet","VTNewActiveMask"};
+    QString   VTAttrStr[2]={"VTWorkingSet","VTNewActiveMask"};
     //
-    boolean setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
+    bool setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
 };
 
 
@@ -406,9 +406,9 @@ class TVTChangeSoftKeyMask :public TVTObject {
     uint16_t VTNewMaskID=0xFFFF;
     //
     uint8_t  VTAttrStrNr=3;
-    String   VTAttrStr[3]={"VTDataMaskType","VTMaskID","VTNewMaskID"};
+    QString   VTAttrStr[3]={"VTDataMaskType","VTMaskID","VTNewMaskID"};
     //
-    boolean setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
+    bool setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
 };
 
 
@@ -427,9 +427,9 @@ class TVTChangeAttribute :public TVTObject {
     uint8_t  VTAttributeID=0xFF;
     uint32_t VTValue=0;
     uint8_t  VTAttrStrNr=3;
-    String   VTAttrStr[3]={"VTObjectReference","VTAttributeID","VTValue"};
+    QString   VTAttrStr[3]={"VTObjectReference","VTAttributeID","VTValue"};
     //
-    boolean setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
+    bool setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
 };
 
 
@@ -447,7 +447,7 @@ class TVTChangePriority :public TVTObject {
     uint16_t VTObjectReference=0xFFFF;
     uint8_t  VTNewPriority=0;
     //
-    boolean setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
+    bool setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
 };
 
 
@@ -466,7 +466,7 @@ class TVTChangeListItem :public TVTObject {
     uint8_t  VTNewListIndex=0;
     uint16_t VTNewObjectID=0xFFFF;
     //
-    boolean setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
+    bool setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
 };
 
 
@@ -483,9 +483,9 @@ class TVTChangeStringValue :public TVTObject {
     //
     uint16_t VTObjectReference=0xFFFF;
     uint16_t VTLength=0;
-    String   VTNewValue="";
+    QString   VTNewValue="";
     //
-    boolean setMsgToAttr(CANMsg *pMsg,TVT_Net *pVT_Net,LoopbackStream *pStream);
+    bool setMsgToAttr(CANMsg *pMsg,TVT_Net *pVT_Net,LoopbackStream *pStream);
 };
 
 
@@ -505,9 +505,9 @@ class TVTChangePolygonPoint :public TVTObject {
     uint8_t VTPointIndex=0;
     int16_t VTxPos=0;
     int16_t VTyPos=0;
-    String  VTPoints="";
+    QString  VTPoints="";
     //
-    boolean setMsgToAttr(CANMsg *pMsg,TVT_Net *pVT_Net);
+    bool setMsgToAttr(CANMsg *pMsg,TVT_Net *pVT_Net);
 };
 
 
@@ -526,9 +526,9 @@ class TVTChangePolygonScale :public TVTObject {
     uint16_t VTObjectReference=0xFFFF;
     uint16_t VTNewWidth=0;
     uint16_t VTNewHeight=0;
-    String  VTPoints="";
+    QString  VTPoints="";
     //
-    boolean setMsgToAttr(CANMsg *pMsg,TVT_Net *pVT_Net);
+    bool setMsgToAttr(CANMsg *pMsg,TVT_Net *pVT_Net);
 };
 
 
@@ -546,11 +546,11 @@ class TVTLockMaskObject :public TVTObject {
     uint8_t  VT0PCommFunction=0xBD;
     uint8_t  VTEvent=VTOnChangeValue;  
     //
-    boolean VTLock=false;
+    bool VTLock=false;
     uint16_t VTObjectReference=0xFFFF;
     uint16_t VTTimeOut        =0xFFFF;
     //
-    boolean setMsgToAttr(CANMsg *pMsg,TVT_Net *pVT_Net);
+    bool setMsgToAttr(CANMsg *pMsg,TVT_Net *pVT_Net);
 };
 
 
@@ -568,7 +568,7 @@ class TVTExecuteMacroObject :public TVTObject {
     //
     uint8_t VTObjectReference     =0xFF;
     //
-    boolean setMsgToAttr(CANMsg *pMsg,TVT_Net *pVT_Net);
+    bool setMsgToAttr(CANMsg *pMsg,TVT_Net *pVT_Net);
 };
 
 
@@ -586,7 +586,7 @@ class TVTExtendedExecuteMacroObject :public TVTObject {
     //
     uint16_t VTObjectReference     =0xFFFF;
     //
-    boolean setMsgToAttr(CANMsg *pMsg,TVT_Net *pVT_Net);
+    bool setMsgToAttr(CANMsg *pMsg,TVT_Net *pVT_Net);
 };
 
 
@@ -607,7 +607,7 @@ class TVTChangeObjectLabel :public TVTObject {
     uint8_t  VTFontType            =0x00;
     uint16_t VTGraphicReference    =0xFFFF;
     //
-    boolean setMsgToAttr(CANMsg *pMsg,TVT_Net *pVT_Net);
+    bool setMsgToAttr(CANMsg *pMsg,TVT_Net *pVT_Net);
 };
 
 
@@ -624,12 +624,12 @@ class TVTGraphicContextCommand :public TVTObject {
     //
     uint16_t VTObjectReference=0xFFFF;
     uint8_t  VTSubCommandID=0;
-    String VTCommand="";
-    boolean NewCommand=false;
-    boolean AttrCommand=false;
-    String AttrCommandStr="";
+    QString VTCommand="";
+    bool NewCommand=false;
+    bool AttrCommand=false;
+    QString AttrCommandStr="";
     //
-    boolean setMsgToAttr(CANMsg *pMsg,TVT_Net *pVT_Net);
+    bool setMsgToAttr(CANMsg *pMsg,TVT_Net *pVT_Net);
 };
 
 
@@ -646,7 +646,7 @@ class TVTSelectColourMapObject :public TVTObject {
     //
     uint16_t VTObjectReference=0xFFFF;
     //
-    boolean setMsgToAttr(CANMsg *pMsg,TVT_Net *pVT_Net);
+    bool setMsgToAttr(CANMsg *pMsg,TVT_Net *pVT_Net);
 };
 
 
@@ -664,11 +664,11 @@ class TVTExtendedInputAttributeCommand :public TVTObject {
     uint8_t  VTEvent=VTOnChangeValue;  
     //
     uint8_t VTRangeNumber=0;
-    String  VTCommand="";
-    boolean NewCommand =false;
-    boolean AttrCommand=false;
+    QString  VTCommand="";
+    bool NewCommand =false;
+    bool AttrCommand=false;
     //
-    boolean setMsgToAttr(CANMsg *pMsg,TVT_Net *pVT_Net);
+    bool setMsgToAttr(CANMsg *pMsg,TVT_Net *pVT_Net);
 };
 
 
@@ -684,9 +684,9 @@ class TVTSelectActiveWorkingSet :public TVTObject {
     uint8_t  VT0PCommFunction=0x90;
     uint8_t  VTEvent=VTOnChangeValue;  
     //
-    String   VTWorkingSetName;
+    QString   VTWorkingSetName;
     //
-    boolean setMsgToAttr(CANMsg *pMsg,TVT_Net *pVT_Net,LoopbackStream *pStream);
+    bool setMsgToAttr(CANMsg *pMsg,TVT_Net *pVT_Net,LoopbackStream *pStream);
 };
 
 

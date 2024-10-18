@@ -25,29 +25,29 @@ class TVTGraphicsContext : public TVTGraphicObject{
     //uint8_t VTEventNr=1;
     //uint8_t VTEventList[1]={VTOnChangeAttribute};  //9
   public:
-    String  VTObjName="VTGraphicsContext";
+    QString  VTObjName="VTGraphicsContext";
     //uint8_t  VTObjType=36;
     uint16_t VTWidth=0 ;  //Canvas width
     uint16_t VTHeight=0;  //Canvas height
     //
-    boolean VTViewportActive=false;
+    bool VTViewportActive=false;
     uint16_t VTViewportWidth=0;
     uint16_t VTViewportHeight=0;
-    String   ViewportSizeStr="";
+    QString   ViewportSizeStr="";
 
     int16_t VTViewportX;
     int16_t VTViewportY;
-    String  fViewportPosStr="";
+    QString  fViewportPosStr="";
     
     float VTViewportZoom=1.000;       //ShortInt -32.0 .. 32.0
-    boolean VTViewportZoomMode=false; //Pan and Zoom
-    boolean VTViewportVisible=true;
+    bool VTViewportZoomMode=false; //Pan and Zoom
+    bool VTViewportVisible=true;
     //
     int16_t VTGraphicsCursorX=0;
     int16_t VTGraphicsCursorY=0;
-    String  GraphicsCursorPosStr="";
-    boolean VTGraphicsCursorVisible=false;
-    boolean GraphicsCursorMove=false;
+    QString  GraphicsCursorPosStr="";
+    bool VTGraphicsCursorVisible=false;
+    bool GraphicsCursorMove=false;
     //
     uint8_t VTForegroundColour=0;
     uint8_t VTBackgroundColour=1;
@@ -57,38 +57,38 @@ class TVTGraphicsContext : public TVTGraphicObject{
     uint16_t VTFillAttributes=0xFFFF;
     uint16_t VTFontAttributes=0xFFFF;
     //
-    String VTDrawText=""; //TVTWideString;
+    QString VTDrawText=""; //TVTWideString;
     //
     //helper
-    boolean VTZUniCode=false;
+    bool VTZUniCode=false;
     //
     uint16_t DrawVTObject=0xFFFF;
     uint16_t CopyCanvasToPicture=0xFFFF;
     uint16_t CopyViewPortToPicture=0xFFFF;
     //
-    String DrawShape="";
-    String CommandStr="";
-    String SizeStr="";
+    QString DrawShape="";
+    QString CommandStr="";
+    QString SizeStr="";
     //
-    boolean Undo=false;
+    bool Undo=false;
     uint16_t DrawWidth=0;
     uint16_t DrawHeight=0;
-    boolean DrawTextSize=false;
+    bool DrawTextSize=false;
     //
     int16_t DrawOldX=0;
     int16_t DrawOldY=0;
-    boolean DrawVisible=false;
-    boolean DrawPoint=false;
-    String  DrawPointText="";
+    bool DrawVisible=false;
+    bool DrawPoint=false;
+    QString  DrawPointText="";
     //
-    boolean ViewPortPosXY=false;
+    bool ViewPortPosXY=false;
     
     //procedure
-    boolean PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net);
+    bool PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net);
     //
-    boolean writeToStream (TVT_Net *pVT_Net,LoopbackStream *pStream);
-    boolean readFromStream(TVT_Net *pVT_Net,LoopbackStream *pStream);
-    boolean readPictureFromStream(TVT_Net *pVT_Net,uint32_t bCount,LoopbackStream *pStream);
+    bool writeToStream (TVT_Net *pVT_Net,LoopbackStream *pStream);
+    bool readFromStream(TVT_Net *pVT_Net,LoopbackStream *pStream);
+    bool readPictureFromStream(TVT_Net *pVT_Net,uint32_t bCount,LoopbackStream *pStream);
     //
     void setAID();
     void getAID();

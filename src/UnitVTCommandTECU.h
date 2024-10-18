@@ -35,19 +35,19 @@
    uint8_t VT0PCommFunction=0x00;
    uint8_t VTError=0x01;
    //
-   boolean setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
+   bool setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
   };
 
 
 //=========================================================================
-String getSpeedMessage (CANMsg *pMsg,TVT_Net *pVT_Net);
-String getEngineSpeedMessage(CANMsg *pMsg,TVT_Net *pVT_Net);
-String getHitchStatusMessage(CANMsg *pMsg,TVT_Net *pVT_Net);
-String getPTOOutShaftMessage(CANMsg *pMsg,TVT_Net *pVT_Net);
+QString getSpeedMessage (CANMsg *pMsg,TVT_Net *pVT_Net);
+QString getEngineSpeedMessage(CANMsg *pMsg,TVT_Net *pVT_Net);
+QString getHitchStatusMessage(CANMsg *pMsg,TVT_Net *pVT_Net);
+QString getPTOOutShaftMessage(CANMsg *pMsg,TVT_Net *pVT_Net);
 //
-boolean setTECUMonitor(TVT_Net *pVT_Net);
-boolean setTECUDataValue(int8_t k, TVT_Net *pVT_Net);
-boolean getTECUMonitor(CANMsg *pMsg,TVT_Net *pVT_Net);
+bool setTECUMonitor(TVT_Net *pVT_Net);
+bool setTECUDataValue(int8_t k, TVT_Net *pVT_Net);
+bool getTECUMonitor(CANMsg *pMsg,TVT_Net *pVT_Net);
 
 
 //==============================================================================

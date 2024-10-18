@@ -36,9 +36,9 @@ class TVTAuxiliaryAssign {
     uint8_t  VTError=0xFF;
     uint16_t VTInputReference=0xFFFF;
     uint16_t VTFunctionReference=0xFFFF;
-    String   VTWSetName="FFFFFFFFFFFFFFFF";
+    QString   VTWSetName="FFFFFFFFFFFFFFFF";
     //
-    virtual boolean setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net,LoopbackStream *pStream){};
+    virtual bool setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net,LoopbackStream *pStream){};
 };
 
 
@@ -88,7 +88,7 @@ class TVTAuxiliaryPrefAssignment :public TVTAuxiliaryAssign{
     //list 2
     uint8_t VTPrefFuncNumber=0xFF;
     //
-    boolean setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net,LoopbackStream *pStream);
+    bool setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net,LoopbackStream *pStream);
     uint8_t setVTAuxAssignList(TVT_Net *pVT_Net,uint8_t dst);    
 };
 
@@ -111,7 +111,7 @@ class TVTAuxiliaryInputStatus {
     uint8_t VTInputStatus=0xFF;
     //gInpObj :TVTObject;
     //
-    boolean setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net,LoopbackStream *pStream);
+    bool setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net,LoopbackStream *pStream);
 
 };
 
@@ -141,7 +141,7 @@ class  TVTAuxiliaryInputMaintenance {
     uint16_t VTModelIdentCode=0xFFFF;
     uint8_t  VTReadyMode=0xFF;
     //
-    boolean setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net,LoopbackStream *pStream);
+    bool setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net,LoopbackStream *pStream);
 };
 
 
@@ -155,9 +155,9 @@ class TVTAuxiliaryInputStatusEnable {
   public:
     uint8_t  VT0PCommFunction=0x25;
     uint16_t VTObjectReference=0xFFFF;
-    boolean  VTEnabled=false;
+    bool  VTEnabled=false;
     //
-    boolean setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net,LoopbackStream *pStream);
+    bool setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net,LoopbackStream *pStream);
 };
 
 //==============================================================================

@@ -24,7 +24,7 @@
 //Commands and Messages global VT/ECU
 //==============================================================================
 
-const String KeyErrorStr[6]=
+const QString KeyErrorStr[6]=
                    {"no Error",
                     "not valid object type or active data mask",
                     "pressed without released",
@@ -45,7 +45,7 @@ const String KeyErrorStr[6]=
     //
     uint8_t VTBusyCode=0x00;
     uint8_t VTVersionNumber=0x00;
-    boolean setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
+    bool setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
 };
 
 
@@ -63,7 +63,7 @@ const String KeyErrorStr[6]=
     uint16_t VTObjectReference=0xFFFF;
     uint8_t  VTBusyCode=0xFF;
     uint8_t  VTFunction=0xFE;
-    boolean  setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
+    bool  setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
 };
 
 //------------------------------------------------------------------------------
@@ -79,7 +79,7 @@ const String KeyErrorStr[6]=
     uint16_t VTObjectReference=0xFFFF;
     uint16_t VTParentReference=0xFFFF;
     uint8_t  VTKeyNumber=0x00;
-    boolean  setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
+    bool  setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
 };
 
 
@@ -97,7 +97,7 @@ const String KeyErrorStr[6]=
     uint16_t VTObjectReference=0xFFFF;
     uint16_t VTParentReference=0xFFFF;
     uint8_t  VTKeyNumber=0x00;
-    boolean  setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
+    bool  setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
 };
 
 
@@ -113,7 +113,7 @@ const String KeyErrorStr[6]=
     int16_t VTxPos=0;
     int16_t VTyPos=0;
     uint8_t VTActivationCode=0x00;
-    boolean  setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
+    bool  setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
 };
 
 
@@ -129,7 +129,7 @@ const String KeyErrorStr[6]=
     uint16_t VTObjectReference=0xFFFF;
     uint8_t  VTSelect=0x00;
     uint8_t  VTEdit=0x00;
-    boolean  setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
+    bool  setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
 };
 
 
@@ -144,7 +144,7 @@ const String KeyErrorStr[6]=
     uint8_t  VTEvent=0;  
     //
     uint16_t VTObjectReference=0xFFFF;
-    boolean  setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
+    bool  setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
 };
 
 
@@ -159,7 +159,7 @@ const String KeyErrorStr[6]=
     //
     uint16_t VTObjectReference=0xFFFF;
     uint32_t VTValue=0;
-    boolean  setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
+    bool  setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
 };
 
 //------------------------------------------------------------------------------
@@ -174,7 +174,7 @@ const String KeyErrorStr[6]=
     uint16_t VTActiveMask=0xFFFF;
     uint16_t VTObjectReference=0xFFFF;
     uint16_t VTParentReference=0xFFFF;
-    boolean  setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
+    bool  setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
 };
 
 
@@ -189,7 +189,7 @@ const String KeyErrorStr[6]=
     //
     uint16_t VTActiveMask=0xFFFF;
     uint16_t VTObjectReference=0xFFFF;
-    boolean  setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
+    bool  setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
 };
 
 
@@ -205,10 +205,10 @@ const String KeyErrorStr[6]=
     uint16_t VTParentReference=0xFFFF;
     uint16_t VTObjectReference=0xFFFF;
     uint16_t VTLength=4;
-    String   VTNewValue="TEST";
-    boolean  VTZUniCode=false;
-    boolean  UniCode=false;
-    boolean  setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
+    QString   VTNewValue="TEST";
+    bool  VTZUniCode=false;
+    bool  UniCode=false;
+    bool  setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
 };
 
 
@@ -225,7 +225,7 @@ const String KeyErrorStr[6]=
     uint8_t  VTStatus0=0x00;
     uint16_t VTMask1  =0xFFFF;
     uint8_t  VTStatus1=0x00;
-    boolean  setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
+    bool  setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
 };
 
 
@@ -240,7 +240,7 @@ const String KeyErrorStr[6]=
     uint8_t  VTEvent=0;  
     //
     uint8_t VTTerminationCause=0x00;
-    boolean  setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
+    bool  setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
 };
 
 
@@ -255,7 +255,7 @@ const String KeyErrorStr[6]=
     uint8_t  VTEvent=0;  
     //
     uint8_t VTUnsupported=0xFF;
-    boolean setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
+    bool setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
 };
 
 

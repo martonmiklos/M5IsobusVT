@@ -35,11 +35,11 @@
 //==============================================================================
 //PROCEDURES
 //==============================================================================
-boolean VT_CAN_Transmit(TVT_Net *pVT_Net,CANMsg *pMsg);
+bool VT_CAN_Transmit(TVT_Net *pVT_Net,CANMsg *pMsg);
 //
-boolean writeImageDirect(TVT_Net *pVT_Net);
-boolean writeImageScreen(fs::FS &fs, const char * path,TVT_Net *pVT_Net);
-boolean readImageScreen (fs::FS &fs, const char *path, TVT_Net *pVT_Net);
+bool writeImageDirect(TVT_Net *pVT_Net);
+bool writeImageScreen(const char * path,TVT_Net *pVT_Net);
+bool readImageScreen (const char *path, TVT_Net *pVT_Net);
 
 
 //==============================================================================
@@ -52,8 +52,8 @@ private:
   protected:
    //
   public:
-   boolean getTransportProtcol(CANMsg *pMsg,TVT_Net *pVT_Net,LoopbackStream *pStream, uint32_t rPGN=0);
-   boolean setTransportProtcol(CANMsg *pMsg,TVT_Net *pVT_Net,uint32_t rPGN=0);
+   bool getTransportProtcol(CANMsg *pMsg,TVT_Net *pVT_Net,LoopbackStream *pStream, uint32_t rPGN=0);
+   bool setTransportProtcol(CANMsg *pMsg,TVT_Net *pVT_Net,uint32_t rPGN=0);
 };
 
 
@@ -90,10 +90,10 @@ private:
     uint8_t  VT_MinuteOffset=0;
     uint8_t  VT_HourOffset=0;
     //
-    //String  setWSNameSetToMsgAndStr(CANMsg *pMsg,TVT_Net *pVT_Net);
+    //QString  setWSNameSetToMsgAndStr(CANMsg *pMsg,TVT_Net *pVT_Net);
     //void    getWSNameFromMsg (CANMsg *pMsg,TVT_Net *pVT_Net);
-    //String  setWorkingSetName(CANMsg *pMsg,TVT_Net *pVT_Net);
-    boolean setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
+    //QString  setWorkingSetName(CANMsg *pMsg,TVT_Net *pVT_Net);
+    bool setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
 };
 
 
@@ -118,10 +118,10 @@ private:
     uint8_t  VT_ReserveBit=0x00;
     uint8_t  VT_Arbitrary=0x00;
     //
-    String  setWSNameSetToMsgAndStr(CANMsg *pMsg,TVT_Net *pVT_Net);
+    QString  setWSNameSetToMsgAndStr(CANMsg *pMsg,TVT_Net *pVT_Net);
     void    getWSNameFromMsg (CANMsg *pMsg,TVT_Net *pVT_Net);
-    String  setWorkingSetName(CANMsg *pMsg,TVT_Net *pVT_Net);
-    boolean setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
+    QString  setWorkingSetName(CANMsg *pMsg,TVT_Net *pVT_Net);
+    bool setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
 };
 
 
@@ -134,7 +134,7 @@ private:
    //
   public:
     //
-    boolean setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
+    bool setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
 };
 
 
@@ -147,9 +147,9 @@ private:
   protected:
    //
   public:
-    String VT_Language[3]={"en","de","nl"};
+    QString VT_Language[3]={"en","de","nl"};
     //
-    boolean setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
+    bool setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
 };
 
 
@@ -169,7 +169,7 @@ private:
     uint16_t VTXPixel=240; 
     uint16_t VTYPixel=240; 
     //
-    boolean setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
+    bool setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
 };
 
 
@@ -188,7 +188,7 @@ private:
     uint8_t  VTVirtualSoftKeys =64;
     uint8_t  VTPhysicalSoftKeys=6;
     //
-    boolean setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
+    bool setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
   };
   
 //==============================================================================
@@ -204,7 +204,7 @@ private:
     uint8_t  VTLargeFontSize=0xFF;
     uint8_t  VTFontStyle    =0xFF;
     //
-    boolean setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
+    bool setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
   };
 
 
@@ -221,7 +221,7 @@ private:
    uint8_t  VTVersionNumber    =0x06;
    uint8_t  VTStatus           =0x00;
    //
-   boolean setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
+   bool setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
   };
 
 
@@ -238,7 +238,7 @@ private:
    uint8_t VT0PCommFunction=0xB2;
    uint8_t VTError=0x01;
    //
-   boolean setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
+   bool setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
   };
 
 
@@ -253,7 +253,7 @@ private:
    uint8_t VT0PCommFunction=0x12;
    uint8_t VTError=0x00;
    //
-   boolean setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
+   bool setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
   };
 
 
@@ -270,28 +270,28 @@ private:
    //
    uint8_t VT0PCommFunction=0xFF;
    uint8_t VTNumberOfVersionLabels=0;
-   String  VTVersionLabel="";
-   String  VTVersionFolder="";
+   QString  VTVersionLabel="";
+   QString  VTVersionFolder="";
    uint8_t VTError=0;
    //
-   String  formatBytes(size_t bytes);
+   QString  formatBytes(size_t bytes);
    //
    int8_t  getValidCharacters (TVT_Net *pVT_Net);
    int8_t  getLastVersionLabel(TVT_Net *pVT_Net);
    //
-   boolean writeObjectFile(fs::FS &fs, const char * path,TVT_Net *pVT_Net);
-   boolean storeFile(fs::FS &fs,TVT_Net *pVT_Net);
+   bool writeObjectFile(const char * path,TVT_Net *pVT_Net);
+   bool storeFile(TVT_Net *pVT_Net);
    //
-   boolean writeFile (fs::FS &fs, const char * path,TVT_Net *pVT_Net);
-   boolean writeStreamToFile(fs::FS &fs, const char * path,LoopbackStream *pStream,TVT_Net *pVT_Net);
+   bool writeFile (const char * path,TVT_Net *pVT_Net);
+   bool writeStreamToFile(const char * path,LoopbackStream *pStream,TVT_Net *pVT_Net);
    //
-   boolean writeImage(fs::FS &fs, const char * path,TVT_Net *pVT_Net);
-   boolean readFile  (fs::FS &fs, const char * path, LoopbackStream *pStream,TVT_Net *pVT_Net);
+   bool writeImage(const char * path,TVT_Net *pVT_Net);
+   bool readFile  (const char * path, LoopbackStream *pStream,TVT_Net *pVT_Net);
    //
-   boolean deleteRecursive(fs::FS &fs, const char *path,TVT_Net *pVT_Net);
-   boolean deleteFile(fs::FS &fs, const char * path, LoopbackStream *pStream,TVT_Net *pVT_Net);
-   boolean createDir (fs::FS &fs, const char * dirname,TVT_Net *pVT_Net);
-   boolean listDir   (fs::FS &fs, const char * dirname, uint8_t levels,TVT_Net *pVT_Net);
+   bool deleteRecursive(const char *path,TVT_Net *pVT_Net);
+   bool deleteFile(const char * path, LoopbackStream *pStream,TVT_Net *pVT_Net);
+   bool createDir (const char * dirname,TVT_Net *pVT_Net);
+   bool listDir   (const char * dirname, uint8_t levels,TVT_Net *pVT_Net);
    //
   };
 
@@ -306,7 +306,7 @@ private:
   public:
    uint8_t VT0PCommFunction=0xE0;
    //
-   boolean setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net,LoopbackStream *pStream);
+   bool setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net,LoopbackStream *pStream);
   };
 
 
@@ -320,7 +320,7 @@ private:
   public:
    uint8_t VT0PCommFunction=0xD0;
    //
-   boolean setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net,LoopbackStream *pStream);
+   bool setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net,LoopbackStream *pStream);
   };
 
 
@@ -334,7 +334,7 @@ private:
   public:
    uint8_t VT0PCommFunction=0xD1;
    //
-   boolean setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net,LoopbackStream *pStream);
+   bool setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net,LoopbackStream *pStream);
   };
 
 
@@ -348,7 +348,7 @@ private:
   public:
    uint8_t VT0PCommFunction=0xD2;
    //
-   boolean setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net,LoopbackStream *pStream);
+   bool setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net,LoopbackStream *pStream);
   };
   
 
@@ -363,7 +363,7 @@ private:
   public:
    uint8_t VT0PCommFunction=0xD3;
    //
-   boolean setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net,LoopbackStream *pStream);
+   bool setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net,LoopbackStream *pStream);
   };
 
 
@@ -377,7 +377,7 @@ private:
   public:
    uint8_t VT0PCommFunction=0xD4;
    //
-   boolean setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net,LoopbackStream *pStream);
+   bool setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net,LoopbackStream *pStream);
   };
 
 
@@ -392,7 +392,7 @@ private:
   public:
    uint8_t VT0PCommFunction=0xD5;
    //
-   boolean setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net,LoopbackStream *pStream);
+   bool setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net,LoopbackStream *pStream);
   };
 
 //----------------------------------------------------------------------------
@@ -405,7 +405,7 @@ private:
   public:
    uint8_t VT0PCommFunction=0xD6;
    //
-   boolean setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net,LoopbackStream *pStream);
+   bool setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net,LoopbackStream *pStream);
   };
 
 
@@ -427,7 +427,7 @@ private:
    uint8_t  VTRangeNumber=0x03;
    uint16_t VTRange[6]={0x0000,0x0FFF,0x1000,0x1FFF,0x2000,0x2FFF};
    //
-   boolean setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net,LoopbackStream *pStream);
+   bool setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net,LoopbackStream *pStream);
   };
 
 //----------------------------------------------------------------------------
@@ -442,7 +442,7 @@ private:
    uint8_t VTDataMaskColour=0x01;
    uint8_t VTKeyColour     =0x01;
    //
-   boolean setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
+   bool setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
   };
 
 
@@ -456,9 +456,9 @@ private:
   public:
    uint8_t VT0PCommFunction=0xC5;
    uint16_t VTDataCount    =0;
-   String   VTStructure="";
+   QString   VTStructure="";
    //
-   boolean setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net,LoopbackStream *pStream);
+   bool setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net,LoopbackStream *pStream);
   };
 
 //------------------------------------------------------------------------------
@@ -472,7 +472,7 @@ private:
    uint8_t VT0PCommFunction=0xBB;
    uint8_t VTInstance=0;
    //
-   boolean setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
+   bool setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
   };
 
 
@@ -489,9 +489,9 @@ private:
    uint8_t  VTPath=0;
    uint16_t VTImageID=0;
    //
-   boolean  setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
-   boolean  writeImage(fs::FS &fs, const char *path,TVT_Net *pVT_Net);
-   boolean  readImage (fs::FS &fs, const char *path,TVT_Net *pVT_Net);
+   bool  setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
+   bool  writeImage(const char *path,TVT_Net *pVT_Net);
+   bool  readImage (const char *path,TVT_Net *pVT_Net);
   };
 
 
@@ -505,7 +505,7 @@ private:
   public:
    uint8_t VT0PCommFunction=0x60;
    //
-   boolean setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
+   bool setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net);
   };
 
 
@@ -530,12 +530,12 @@ private:
    uint32_t VTPGN=0xFFFFFFFF;
    uint8_t  VT0PCommFunction=0xEA; //request PGN
    uint16_t VTDataCount=0;
-   String   VTStructure="";
+   QString   VTStructure="";
    //
-   boolean setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net,LoopbackStream *pStream);
+   bool setMsgToAttr (CANMsg *pMsg,TVT_Net *pVT_Net,LoopbackStream *pStream);
    void    GetData_DiagConformance(LoopbackStream *pStream);
-   String  getDiagInfo(TVT_Net *pVT_Net,String mStr, LoopbackStream *pStream);
-   String  getDiagHS_Str(TVT_Net *pVT_Net, uint32_t r_PGN);
+   QString  getDiagInfo(TVT_Net *pVT_Net, QString mStr, LoopbackStream *pStream);
+   QString  getDiagHS_Str(TVT_Net *pVT_Net, uint32_t r_PGN);
    
   };
 

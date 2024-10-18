@@ -9,95 +9,33 @@
 
 //==============================================================================
 //==============================================================================
-#include "Arduino.h"
-// Include the PNG decoder library
-#include <PNGdec.h>
 //
 //==============================================================================
 //global define
 //==============================================================================
-#define MSTACK_MODE
-//==============================================================================
-//#define M5STACK_MODE
-#define M5CORE2_MODE
 //
 //#define COM_MODUL_MODE
 //
-#ifndef COM_MODUL_MODE
- #define COM_CAN_MODE
-#endif //not COM_MODUL_MODE
-//
-#ifdef COM_CAN_MODE
-  // by JG COM_CAN_MODE_B: interner CAN PIN26 u. Pin36
-  //#define COM_CAN_MODE_A
-  #define COM_CAN_MODE_B
-  //#define COM_CAN_MODE_C
-#endif //COM_CAN_MODE
 //
 //
 //==============================================================================
 //==============================================================================
 //
-#ifdef M5STACK_MODE
- #include "M5Stack.h"
-#endif
 
-#ifdef M5CORE2_MODE
- #include "M5Core2.h"
-#endif
-//
-//==============================================================================
-#ifdef COM_CAN_MODE 
- //Port A
- #ifdef COM_CAN_MODE_A 
-  #define CAN_TX GPIO_NUM_32
-  #define CAN_RX GPIO_NUM_33
- #endif
- //Port B
- #ifdef COM_CAN_MODE_B 
-  #define CAN_TX GPIO_NUM_26
-  #define CAN_RX GPIO_NUM_36
- #endif
- //Port C
- #ifdef COM_CAN_MODE_C 
-  #define CAN_TX GPIO_NUM_16
-  #define CAN_RX GPIO_NUM_17
- #endif
- //
-#else
- //
- #ifdef COM_MODUL_MODE
-  //internal communication modul
-  #ifdef M5STACK_MODE
-    #define CAN0_INT 15  // Set INT to internal pin 15 Int
-    #define CAN0_CS 12   // Set CS  to internal pin 12 Int
-  #endif
-  //
-  #ifdef M5CORE2_MODE
-    #define CAN0_INT 2   // Set INT to internal pin 2 Int
-    #define CAN0_CS 27   // Set CS  to internal pin 27 Int
-  #endif
- #else
-  //external MCP2515
-  #ifdef M5STACK_MODE
-    #define CAN0_INT 5  // Set INT pin 5
-    #define CAN0_CS 2   // Set CS  pin 2
-  #endif
-  //
-  #ifdef M5CORE2_MODE
-    #define CAN0_INT 19  // Set INT pin 19
-    #define CAN0_CS 27   // Set CS  pin 27
-  #endif
- #endif //COM_MODUL_MODE
-#endif //COM_CAN_MODE
+#include <stdint.h>
+#include <stddef.h>
+
+#include <QFile>
+#include <QString>
+#include <QDateTime>
 
 //==============================================================================
 //==============================================================================
 //Definition consts
 //==============================================================================
-const String gProgVersion="23.05";
-const String delm0="----------------";
-const String delm1="================";
+const QString gProgVersion="23.05";
+const QString delm0="----------------";
+const QString delm1="================";
 
 //const uint32_t max_size=0xFFFF/2;
 const uint32_t max_size=4*0xFFFF;
@@ -392,7 +330,7 @@ Not Valid Version Label Characters:
   */
   //Set of Numeric Value objects
   const int8_t numObjSet[]      ={3,9,12,21};
-  //Set of String Value objects
+  //Set of QString Value objects
   const int8_t strgObjSet[]     ={5,8,11,22,26,36};
   //Set of Input objects  with Button
 
@@ -512,7 +450,7 @@ typedef struct i2cDevice {
     addr = 0;
     nextPtr = nullptr;
   };
-  String Name;
+  QString Name;
   uint8_t addr;
   struct i2cDevice *nextPtr;
 } i2cDevice_t;
@@ -567,8 +505,8 @@ class LoopbackStream {
   uint32_t buffer_size=0;
   uint32_t pos=0, size=0;
 public:
-  uint32_t setNewBufferSize(uint32_t bSize, boolean psRAM=true);
-  uint32_t clear(boolean psRAM=true);
+  uint32_t setNewBufferSize(uint32_t bSize, bool psRAM=true);
+  uint32_t clear(bool psRAM=true);
   uint8_t* getBuffer();
   uint32_t getBufferSize();
   uint32_t available();
@@ -584,7 +522,7 @@ public:
   
   uint32_t readBytes(uint8_t *buff,uint32_t bSize,int32_t bPos=-1);
   uint32_t readBytesVal(uint32_t bSize,int32_t bPos=-1);
-  String   readBytesString(uint32_t bSize,int32_t bPos=-1);
+  QString   readBytesString(uint32_t bSize,int32_t bPos=-1);
   //
   uint32_t write(uint8_t b);
   uint8_t  read();
@@ -603,9 +541,8 @@ public:
    uint8_t   DATA[256]={};               // Data array
    uint8_t   MSGTYPE=0;                  // Remote request flag
    uint8_t   MSG_TX=0;                   // TX transmit flag
-   uint32_t  TimeStamp=millis();         // CAN Timestamp
+   uint32_t  TimeStamp=QDateTime::currentDateTime().toMSecsSinceEpoch();         // CAN Timestamp
    char      msgString[128];
-
 };
 
 
@@ -626,8 +563,8 @@ public:
  uint8_t  pixelFormat=0;
  float    pixelXF=1.000;
  float    pixelYF=1.000;
- boolean  flash=false;
- boolean  swap=false;
+ bool  flash=false;
+ bool  swap=false;
 };
 
 
@@ -643,7 +580,7 @@ public:
 class TVTAttrValue {
 public:
  uint32_t attrValue[3]={0,0,0};
- String   attrName[3]={"VTLineColour","VTLineWidth","VTLineArt"};
+ QString   attrName[3]={"VTLineColour","VTLineWidth","VTLineArt"};
 };
 
 //==============================================================================
@@ -661,8 +598,8 @@ class TVTAttrAID {
  uint8_t numAID=0;
  uint8_t byteAID=0;
  uint8_t typeAID=0;
- String  nameAID="";
- String  valueAID="";
+ QString  nameAID="";
+ QString  valueAID="";
 };
 
 
@@ -697,7 +634,6 @@ class TVT_Net {
  public:
   void * StackPtrAtStart;
   void * StackPtrEnd;
-  UBaseType_t watermarkStart;
   //
   uint16_t VTObjID=0xFFFF;
   uint8_t  VTObjType=0xFF;
@@ -707,44 +643,44 @@ class TVT_Net {
   //TECU data receive
   TVT_TECU_Data tecuData;
   //String TECU_Monitor="/_tecu_monitor.iop";
-  String TECU_Monitor="/_v6_opc50_4.iop";
+  QString TECU_Monitor="/_v6_opc50_4.iop";
   //
   //variable for input objects
-  boolean  getVTValue=false;
+  bool  getVTValue=false;
   uint32_t VTValue=0;
-  String   VTValueStr="";
+  QString   VTValueStr="";
   uint16_t VTInpAttr=0xFFFF; //reference to actual InputAttributes of StringInput
   uint16_t VTInpFont=0xFFFF; //reference to actual InputFont of StringInput
   //  
   //max objects in objectlist
   uint16_t VTObjMax[listMax]; //0..listMax
   //
-  boolean  VT_ChangeAttr=false;
-  boolean  VT_SetEvent=true;
-  boolean  VT_InfoMode=false; //set Serial.print mode ON/OFF
+  bool  VT_ChangeAttr=false;
+  bool  VT_SetEvent=true;
+  bool  VT_InfoMode=false; //set Serial.print mode ON/OFF
   
   //
   uint8_t  VT_CMD=0xFF;    //default Command
   uint32_t VT_AttrValue=0x00;    //default Attribute value
 
-  boolean CAN_active=false;
-  boolean LOG_active=false;
-  boolean Trace_active=false;
-  boolean CR_active=false;
+  bool CAN_active=false;
+  bool LOG_active=false;
+  bool Trace_active=false;
+  bool CR_active=false;
   //
   uint8_t  VT_SRC=0x26;    //default VT-address
-  String   VT_SRC_WS="FFFFFFFFFFFFFFFF";    //default VT-Workingset Name VT
+  QString   VT_SRC_WS="FFFFFFFFFFFFFFFF";    //default VT-Workingset Name VT
   //
   uint32_t VT_DST_TIME[listMax]; //default ECU-TimeStampDiff 0..listMax
   uint8_t  VT_DST[listMax];      //default ECU-addresses 0..listMax
-  String   VT_DST_WS[listMax];   //default ECU-Workingset Name 0..listMax
+  QString   VT_DST_WS[listMax];   //default ECU-Workingset Name 0..listMax
   //
-  String   WS_List[WS_ListCount];         //default ECU-Workingset Name List
+  QString   WS_List[WS_ListCount];         //default ECU-Workingset Name List
 
   int8_t   VT_VersionSize=14;     //default Version Size, extended=64
   uint8_t  VT_VersionCount=0;     //default Version Count
-  String   VT_VersionList="";     //default Version File List
-  String   VT_VersionLast="";     //default Last Version Label
+  QString   VT_VersionList="";     //default Version File List
+  QString   VT_VersionLast="";     //default Last Version Label
   time_t   VT_VersionDateTime=0;  //default Last Version Label DateTime
   //
   int8_t   VTInstance=-1;
@@ -762,8 +698,8 @@ class TVT_Net {
   int32_t  TP_SIZE0;       // start TP-DATA Size
   uint32_t TP_DATA;        // TP-DATA counter
   uint32_t TP_DATA_NR;     // TP-DATA number
-  boolean  TP_DATA_ACTIVE=false;  
-  boolean  TP_EOMA_ACTIVE=false; 
+  bool  TP_DATA_ACTIVE=false;
+  bool  TP_EOMA_ACTIVE=false;
   //
   //ETP-protocol
   uint8_t  ETP_Block=0xFF;
@@ -771,8 +707,8 @@ class TVT_Net {
   int32_t  ETP_SIZE0;      // start ETP-DATA Size
   uint32_t ETP_DATA;       // ETP-DATA counter
   uint32_t ETP_DATA_NR;    // ETP-DATA number
-  boolean  ETP_DATA_ACTIVE=false;
-  boolean  ETP_EOMA_ACTIVE=false;
+  bool  ETP_DATA_ACTIVE=false;
+  bool  ETP_EOMA_ACTIVE=false;
   //
   uint8_t fntSr=0;
   uint8_t fntNr=0;
@@ -787,9 +723,9 @@ class TVT_Net {
   int16_t  fntLine=0;
   //
   //Flash list font and bitmap
-  String   FlashList=""; 
-  uint8_t  Flash=0; 
-  uint16_t FlashColor=TFT_WHITE;
+  QString   FlashList="";
+  uint8_t  Flash=0;
+  uint16_t FlashColor=0; // FIXME TFT_WHITE;
   
   //Font set
   uint8_t fontSet[15][7]=
@@ -809,33 +745,21 @@ class TVT_Net {
      {0,0,0,0,128,128,8}, //13
      {0,0,0,0,128,192,9}};//14
   //
-  String fntName="arial2-1";
-  String fntNamePool[listMax];
+  QString fntName="arial2-1";
+  QString fntNamePool[listMax];
   uint8_t  optn=0;
   uint16_t level=0;
   int16_t  x=0;
   int16_t  y=0;
-  boolean  pVisible=true;
+  bool  pVisible=true;
   //
   uint16_t w=0;
   uint16_t h=0;
   //
   uint8_t listNr=0;
   uint8_t AuxlistNr=0;
-  //
-  M5Display& tft = M5.Lcd;
-  TFT_eSprite ImgTFT = TFT_eSprite(&tft);
-  //TFT_eSprite ImgTFT = TFT_eSprite(&M5.Lcd);
-    //
-    #ifdef M5CORE2_MODE
-     uint8_t butMax=16;
-     Button *softkey_list[16]={NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL};
-     Button *button_list[16]= {NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL};
-     Button *input_list[16]=  {NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL};
-    #endif
-  //
-  //PNG decoder instance
-  PNG png; 
+
+  uint8_t butMax=16;
   int16_t png_xpos = 0;
   int16_t png_ypos = 0;
   //
@@ -866,19 +790,19 @@ class TVT_Net {
   //uint8_t ImgMode=1;
   uint8_t ImgMode=0;
   //
-  boolean VTDefaultColour=false;
+  bool VTDefaultColour=false;
   uint8_t VTEllipseType=0;
   uint16_t lineArt=0xFFFF;
   //
   uint8_t arcSeg=6,arcTickLength=0;
   int16_t arcTicks=-1;
   int16_t arcW=0;
-  boolean arcValue=false;
-  boolean uniCode=false;
-  boolean firstMinus=false;
+  bool arcValue=false;
+  bool uniCode=false;
+  bool firstMinus=false;
   //
   uint16_t VTFillAttribute=0xFFFF;
-  boolean  VTFillMode=false;
+  bool  VTFillMode=false;
   uint8_t  lineWidth=1;
   uint8_t  options=0;
   int16_t  animationIdx=-1;
@@ -887,20 +811,20 @@ class TVT_Net {
   int8_t VTScaleType=-1;
   //
   //view Log
-  boolean serialOut=false; //true;
-  boolean notSerial=false; //true;
+  bool serialOut=false; //true;
+  bool notSerial=false; //true;
   //Heap status
-  uint32_t heapTime=millis();
-  uint32_t pTime=millis();
+  uint32_t heapTime=QDateTime::currentDateTime().toMSecsSinceEpoch();
+  uint32_t pTime=QDateTime::currentDateTime().toMSecsSinceEpoch();
   //
   int16_t  objNr=-1;
   uint32_t aIdx=0;
   //
   TVTAttrAID VTAttrAID[32];
   uint8_t VT_AID_Nr=32;
-  boolean getAttributeMode=false;
-  String nameAttr="";
-  String newValueAttr="";
+  bool getAttributeMode=false;
+  QString nameAttr="";
+  QString newValueAttr="";
   uint8_t SetLabel=0;
   //
   uint16_t VTParentReference=0xFFFF;
@@ -913,26 +837,26 @@ class TVT_Net {
   int16_t  VTyPos=0x00;
   int8_t   VTsPos=0x00;      //pointing event state
   //
-  String   VTSelectMode="C"; //key event state 3000ms
-  boolean  VTPressedFor=false;
-  boolean  VTPressedABC=false;
-  boolean  VTChangeSelect=false;  
+  QString   VTSelectMode="C"; //key event state 3000ms
+  bool  VTPressedFor=false;
+  bool  VTPressedABC=false;
+  bool  VTChangeSelect=false;
   int8_t   VTPageSelect=0;
   uint8_t  VTPageMax=3;
   uint8_t  VTTraceLine=0;
   //
-  boolean  VTUpLoad=false;
-  boolean  VTPoolRefresh=false;
-  boolean  VTPoolClear=false;
+  bool  VTUpLoad=false;
+  bool  VTPoolRefresh=false;
+  bool  VTPoolClear=false;
 
 #ifdef COM_CAN_MODE
   // by JG COM_CAN_MODE_B: interner CAN PIN26 u. Pin36
-   String   infoStr[6]={"CAN-Intern:250kbit","WebSocket:","Webserver:","AccessPoint:","ImageMode:","Mask:"}; 
+   QString   infoStr[6]={"CAN-Intern:250kbit","WebSocket:","Webserver:","AccessPoint:","ImageMode:","Mask:"};
 #else
-  String   infoStr[6]={"CAN-MCP2516:250kbit","WebSocket:","Webserver:","AccessPoint:","ImageMode:","Mask:"};
+  QString   infoStr[6]={"CAN-MCP2516:250kbit","WebSocket:","Webserver:","AccessPoint:","ImageMode:","Mask:"};
 #endif
   //  
-  String VTObjName="";
+  QString VTObjName="";
   //
   LoopbackStream streamDraw;
   LoopbackStream stream_Draw[listMax];
@@ -948,18 +872,18 @@ class TVT_Net {
   //
   LoopbackStream stream_Font[15][4];
   //
-  boolean valid_sd=true;
-  boolean valid_sp=true;
-  boolean SD_Mode=true;
-  boolean SD_DownLoad=false;
+  bool valid_sd=true;
+  bool valid_sp=true;
+  bool SD_Mode=true;
+  bool SD_DownLoad=false;
   //
-  String  inputLineString="";           // a String to set line data to auto.txt file
-  String  inputSerialString="";         // a String to hold incoming data
+  QString  inputLineString="";           // a QString to set line data to auto.txt file
+  QString  inputSerialString="";         // a QString to hold incoming data
   uint8_t inputSerialIndex=0;           //
-  boolean inputSerialComplete = false;  // whether the string is complete
-  boolean notSerialReceive=false;
+  bool inputSerialComplete = false;  // whether the string is complete
+  bool notSerialReceive=false;
   //
-  boolean PSRam=false;
+  bool PSRam=false;
   //
   //VTAudio   
   uint8_t  VTAudioActive=0;
@@ -968,22 +892,20 @@ class TVT_Net {
   uint16_t VTFrequency =0;
   uint16_t VTOnTimeDuration =0;
   uint16_t VTOffTimeDuration=0;
-  uint32_t VTActiveTime=millis();
+  uint32_t VTActiveTime=QDateTime::currentDateTime().toMSecsSinceEpoch();
   //
   //DateTime
-  boolean RTC_active=false;
+  bool RTC_active=false;
   int8_t hourOffset=0;
-  RTC_TimeTypeDef RTCtime;
-  RTC_DateTypeDef RTCDate;
+  QTime RTCtime;
+  QDateTime RTCDate;
   char timeStrbuff[64];  
   //  
   struct tm tmstruct;
-  uint32_t TargetTime = millis();  // for next 1 second timeout
+  uint32_t TargetTime = QDateTime::currentDateTime().toMSecsSinceEpoch();  // for next 1 second timeout
   //
-  fs::FS* fs_SP=NULL;
-  fs::FS* fs_SD=NULL;
   //
-  fs::File fontFile;
+  QFile fontFile;
   //
   //Point for Touch
    #ifdef M5CORE2_MODE
@@ -1000,25 +922,25 @@ class TVT_Net {
   uint8_t  VTStampActive=0;
   uint32_t VTTimeStamp=0;
   //
-  String  ssid_w="";
-  String  password_w="";
-  String  ip_w="";
+  QString  ssid_w="";
+  QString  password_w="";
+  QString  ip_w="";
   //
-  String  ssid_a="";
-  String  password_a="";
-  String  ip_a="";
+  QString  ssid_a="";
+  QString  password_a="";
+  QString  ip_a="";
   //
-  String  SSID_List="";
+  QString  SSID_List="";
   uint8_t SSID_ListMax=12;
   int8_t  SSID_ListIdx=-1;
   int8_t  SSID_ListIdxMax=-1;
   //
   //Auxiliary functions and inputs 
-  String VTAuxFuncList="";
-  String VTAuxInpList="";
+  QString VTAuxFuncList="";
+  QString VTAuxInpList="";
   //
   //Auxiliary assign preferAssignment, VT->Assignment
-  String VTAuxAssignList="";
+  QString VTAuxAssignList="";
   
 //------------------------------------------------------------------------------
 //Definition Color range and ISO Color palette
@@ -1109,43 +1031,43 @@ void bitToggle8(uint8_t & x, uint8_t n);
 uint8_t bitRead8(uint8_t & x, uint8_t bit);
 void bitWrite8(uint8_t & x, uint8_t bit, uint8_t value);
 
-String uint64ToString(uint64_t input);
+QString uint64ToString(uint64_t input);
 
 
 //==============================================================================
-String getNumericResult(uint32_t nVal,uint32_t nOffs,uint32_t nScale,uint8_t nOpt,uint8_t nDecimals,boolean nFormat);
+QString getNumericResult(uint32_t nVal,uint32_t nOffs,uint32_t nScale,uint8_t nOpt,uint8_t nDecimals,bool nFormat);
 
-char * sci(double number, int digits,boolean nTrunc=false);
-void sci(Stream &str, float f, uint8_t digits,boolean nTrunc=false);
+char * sci(double number, int digits,bool nTrunc=false);
+void sci(QString &str, float f, uint8_t digits,bool nTrunc=false);
 //
-uint16_t getUniCodeFontIndex(String str, uint16_t k, TVT_Net *pVT_Net);
-uint16_t setUniCodeFontIndex(String str, uint16_t k, TVT_Net *pVT_Net);
-String   getUniCodeInfo     (String str,boolean setLine);
-int16_t  getUniCodeIndexOf  (String str,wchar_t wc0,wchar_t wc1);
-String   getUniCodeReplace  (String str,wchar_t wc0, wchar_t wc1);
-String   getUniCodeSubstring(String str,uint16_t a,uint16_t cc);
-String   getUniCodeRemove   (String str,uint16_t a,uint16_t cc);
-String   setUniCodeStrToASCII(String uStr);
-String   setASCIItoUniCodeStr(String aStr);
+uint16_t getUniCodeFontIndex(QString str, uint16_t k, TVT_Net *pVT_Net);
+uint16_t setUniCodeFontIndex(QString str, uint16_t k, TVT_Net *pVT_Net);
+QString   getUniCodeInfo     (QString str,bool setLine);
+int16_t  getUniCodeIndexOf  (QString str,wchar_t wc0,wchar_t wc1);
+QString   getUniCodeReplace  (QString str,wchar_t wc0, wchar_t wc1);
+QString   getUniCodeSubstring(QString str,uint16_t a,uint16_t cc);
+QString   getUniCodeRemove   (QString str,uint16_t a,uint16_t cc);
+QString   setUniCodeStrToASCII(QString uStr);
+QString   setASCIItoUniCodeStr(QString aStr);
 
 //------------------------------------------------------------------------------
-boolean  HasInArray(uint8_t eIdx, const int8_t objSet[]);
+bool  HasInArray(uint8_t eIdx, const int8_t objSet[]);
 //
-String   getStringLeftTrim(String str);
-String   getStringRightTrim(String str);
-String   getStringHEX(uint32_t valHex,uint8_t len);
-int16_t  hexCharacterToInt(String str);
-uint16_t hexCharacterToObjID(String str);
-uint64_t hexCharacterToInt64(String str,int8_t len);
+QString   getStringLeftTrim(QString str);
+QString   getStringRightTrim(QString str);
+QString   getStringHEX(uint32_t valHex,uint8_t len);
+int16_t  hexCharacterToInt(QString str);
+uint16_t hexCharacterToObjID(QString str);
+uint64_t hexCharacterToInt64(QString str,int8_t len);
 //
 void    getAddressInfo(TVT_Net *pVT_Net);
 //
-int16_t getIntFromHEX(String str);
-String  getStringHEXInfo(String str,boolean info=true);
+int16_t getIntFromHEX(QString str);
+QString  getStringHEXInfo(QString str,bool info=true);
 //
-String getStringDEC(uint32_t valDEC,uint8_t len);
+QString getStringDEC(uint32_t valDEC,uint8_t len);
 //
-String  getMsgFrameStr(CANMsg *pMsg);
+QString  getMsgFrameStr(CANMsg *pMsg);
 //
 float  getFloatFromInt (uint32_t int4);
 double getDoubleFromInt(uint32_t int4);

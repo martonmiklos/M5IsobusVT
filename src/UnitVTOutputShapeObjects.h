@@ -16,7 +16,7 @@
 class TVTOutputShapeObject : public TVTObject{
   private:
   protected:
-    String  VTObjName="VTOutputShapeObject";
+    QString  VTObjName="VTOutputShapeObject";
     //Events ID
     uint8_t VTEventNr=2;
     uint8_t VTEventList[2]={VTOnChangeAttribute,VTOnChangeSize};
@@ -24,7 +24,7 @@ class TVTOutputShapeObject : public TVTObject{
     uint16_t VTLineAttributes=0xFFFF;
     uint16_t VTWidth=0;
     uint16_t VTHeight=0;
-    String VTMacros="";
+    QString VTMacros="";
     //
     uint8_t  lineWidth=1;
     uint8_t  lineColor=cl_black;
@@ -38,14 +38,14 @@ class TVTOutputShapeObject : public TVTObject{
     uint16_t ah=0;
     //
     //procedure
-    virtual boolean PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net){};
-    virtual boolean writeToStream (TVT_Net *pVT_Net,LoopbackStream *pStream){};
-    virtual boolean readFromStream(TVT_Net *pVT_Net,LoopbackStream *pStream){};
+    virtual bool PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net){};
+    virtual bool writeToStream (TVT_Net *pVT_Net,LoopbackStream *pStream){};
+    virtual bool readFromStream(TVT_Net *pVT_Net,LoopbackStream *pStream){};
     virtual void setAID(){};
     virtual void getAID(){};
     //
-    boolean getLineAndFill(uint16_t lineID, uint16_t fillID, TVT_Net *pVT_Net);
-    boolean PaintObjToFillBitmap(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net,TVTPoints points[],uint16_t pNr);
+    bool getLineAndFill(uint16_t lineID, uint16_t fillID, TVT_Net *pVT_Net);
+    bool PaintObjToFillBitmap(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net,TVTPoints points[],uint16_t pNr);
 };
 
 
@@ -58,13 +58,13 @@ class TVTLine : public TVTOutputShapeObject{
     uint8_t VTEventNr=3;
     uint8_t VTEventList[3]={VTOnChangeAttribute,VTOnChangeSize,VTOnChangeEndPoint};
   public:
-    String  VTObjName="VTLine";
+    QString  VTObjName="VTLine";
     //uint8_t VTObjType=13;
-    boolean VTLineDirection=false;
+    bool VTLineDirection=false;
     //procedure
-    boolean PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net);
-    boolean writeToStream (TVT_Net *pVT_Net,LoopbackStream *pStream);
-    boolean readFromStream(TVT_Net *pVT_Net,LoopbackStream *pStream);
+    bool PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net);
+    bool writeToStream (TVT_Net *pVT_Net,LoopbackStream *pStream);
+    bool readFromStream(TVT_Net *pVT_Net,LoopbackStream *pStream);
     void setAID();
     void getAID();
 };
@@ -79,14 +79,14 @@ class TVTRectangle : public TVTOutputShapeObject{
     uint8_t VTEventNr=2;
     uint8_t VTEventList[2]={VTOnChangeAttribute,VTOnChangeSize};
   public:
-    String  VTObjName="VTRectangle";
+    QString  VTObjName="VTRectangle";
     //uint8_t  VTObjType=14;
     uint8_t  VTLineSuppression=0;
     uint16_t VTFillAttributes=0xFFFF;
     //procedure
-    boolean PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net);
-    boolean writeToStream (TVT_Net *pVT_Net,LoopbackStream *pStream);
-    boolean readFromStream(TVT_Net *pVT_Net,LoopbackStream *pStream);
+    bool PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net);
+    bool writeToStream (TVT_Net *pVT_Net,LoopbackStream *pStream);
+    bool readFromStream(TVT_Net *pVT_Net,LoopbackStream *pStream);
     void setAID();
     void getAID();
 };
@@ -100,16 +100,16 @@ class TVTEllipse : public TVTOutputShapeObject{
     uint8_t VTEventNr=2;
     uint8_t VTEventList[2]={VTOnChangeAttribute,VTOnChangeSize};
   public:
-    String  VTObjName="VTEllipse";
+    QString  VTObjName="VTEllipse";
     //uint8_t  VTObjType=15;
     uint8_t  VTEllipseType=0;
     uint8_t  VTStartAngle=0;
     uint8_t  VTEndAngle=0;
     uint16_t VTFillAttributes=0xFFFF;
     //procedure
-    boolean PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net);
-    boolean writeToStream (TVT_Net *pVT_Net,LoopbackStream *pStream);
-    boolean readFromStream(TVT_Net *pVT_Net,LoopbackStream *pStream);
+    bool PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net);
+    bool writeToStream (TVT_Net *pVT_Net,LoopbackStream *pStream);
+    bool readFromStream(TVT_Net *pVT_Net,LoopbackStream *pStream);
     void setAID();
     void getAID();
 };
@@ -124,20 +124,20 @@ class TVTPolygon : public TVTOutputShapeObject{
     uint8_t VTEventNr=2;
     uint8_t VTEventList[2]={VTOnChangeAttribute,VTOnChangeSize};
   public:
-    String  VTObjName="VTPolygon";
+    QString  VTObjName="VTPolygon";
     //uint8_t VTObjType=16;
     uint8_t  VTPolygonType=0;
     uint16_t VTFillAttributes=0xFFFF;
     uint8_t  VTPoints=0;
     //
-    boolean VTZPointsSized=false;
-    boolean VTZPointsOptimized=false;
+    bool VTZPointsSized=false;
+    bool VTZPointsOptimized=false;
     //procedure
-    boolean PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net);
+    bool PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net);
     void SetLinePolygon (TVT_Net *pVT_Net,TVTPoints points[]);    
     //
-    boolean writeToStream (TVT_Net *pVT_Net,LoopbackStream *pStream);
-    boolean readFromStream(TVT_Net *pVT_Net,LoopbackStream *pStream);
+    bool writeToStream (TVT_Net *pVT_Net,LoopbackStream *pStream);
+    bool readFromStream(TVT_Net *pVT_Net,LoopbackStream *pStream);
     void setAID();
     void getAID();
 };

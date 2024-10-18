@@ -20,14 +20,14 @@ class TVTObjectPointer : public TVTObject{
     uint8_t VTEventNr=1;
     uint8_t VTEventList[1]={VTOnChangeValue};
   public:
-    String  VTObjName="VTObjectPointer";
+    QString  VTObjName="VTObjectPointer";
     //uint8_t VTObjType=27;
     uint16_t VTValue=0xFFFF;
     //
     //procedure
-    boolean PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net);
-    boolean writeToStream  (TVT_Net *pVT_Net,LoopbackStream *pStream);
-    boolean readFromStream (TVT_Net *pVT_Net,LoopbackStream *pStream);
+    bool PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net);
+    bool writeToStream  (TVT_Net *pVT_Net,LoopbackStream *pStream);
+    bool readFromStream (TVT_Net *pVT_Net,LoopbackStream *pStream);
     void setAID();
     void getAID();
 };
@@ -42,14 +42,14 @@ class TVTObjectDummy : public TVTObject{
     uint8_t VTEventNr=1;
     uint8_t VTEventList[1]={VTOnMacro};
   public:
-    String  VTObjName="VTObjectDummy";
+    QString  VTObjName="VTObjectDummy";
     //uint8_t  VTObjType=232;
     uint16_t VTParentObjID=0xFFFF;
     uint8_t  VTParentObjType=0xFF;
     //procedure
-    boolean PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net);
-    boolean writeToStream  (TVT_Net *pVT_Net,LoopbackStream *pStream);
-    boolean readFromStream (TVT_Net *pVT_Net,LoopbackStream *pStream);
+    bool PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net);
+    bool writeToStream  (TVT_Net *pVT_Net,LoopbackStream *pStream);
+    bool readFromStream (TVT_Net *pVT_Net,LoopbackStream *pStream);
     void setAID();
     void getAID();
 };

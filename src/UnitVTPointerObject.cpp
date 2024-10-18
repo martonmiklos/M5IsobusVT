@@ -14,8 +14,8 @@
 //==============================================================================
 //==============================================================================
 //type=27
-boolean TVTObjectPointer::PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net) {
-boolean valid=(getVTObjectListSize(pVT_Net)>0);
+bool TVTObjectPointer::PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net) {
+bool valid=(getVTObjectListSize(pVT_Net)>0);
 uint8_t  err=0x00;
 uint16_t oLevel=pVT_Net->level;
 int16_t  objIdx=pVT_Net->objNr,refIdx=-1; 
@@ -47,13 +47,13 @@ int16_t  objIdx=pVT_Net->objNr,refIdx=-1;
 };
 
 //------------------------------------------------------------------------------
-boolean TVTObjectPointer::writeToStream(TVT_Net *pVT_Net,LoopbackStream *pStream){
+bool TVTObjectPointer::writeToStream(TVT_Net *pVT_Net,LoopbackStream *pStream){
  return writeToStreamDirect(pVT_Net,pStream);
 };
 
 //------------------------------------------------------------------------------
-boolean TVTObjectPointer::readFromStream(TVT_Net *pVT_Net,LoopbackStream *pStream){
-boolean valid=(pStream->available());
+bool TVTObjectPointer::readFromStream(TVT_Net *pVT_Net,LoopbackStream *pStream){
+bool valid=(pStream->available());
 uint16_t i=0,j=0,nn=0;
 uint8_t  bb=0;
 uint32_t ww=0;
@@ -70,7 +70,7 @@ uint32_t ww=0;
          bb=pStream->read(); pVT_Net->streamStr.write(bb);
          ww+=(bb<<(j*8)); 
         }//for j
-       VTAttrAID[i].valueAID=String(ww);
+       VTAttrAID[i].valueAID=QString::number(ww);
     }//for i
    getVTObjectListAdd(pVT_Net);
    pVT_Net->streamStr.clear();
@@ -86,7 +86,7 @@ uint16_t i=0,j=0;
     for (i=1;i<VT_AID_Nr;i++){
      ww=0;
        for (j=0;j<VTAttrAID[i].valueAID.length();j++){
-        ww+=char(VTAttrAID[i].valueAID[j])<<8*j;  
+        ww+=char(VTAttrAID[i].valueAID[j].toLatin1())<<8*j;  
        }//for j
        switch (i) {
         case 1:VTValue=ww;break;
@@ -97,16 +97,16 @@ uint16_t i=0,j=0;
 
 //------------------------------------------------------------------------------
 void TVTObjectPointer::setAID(){
- VTAttrAID[0].numAID=0;   VTAttrAID[0].byteAID=1; VTAttrAID[0].typeAID=0; VTAttrAID[0].nameAID="VTObjType";VTAttrAID[0].valueAID=String(VTObjType);
- VTAttrAID[1].numAID=1;   VTAttrAID[1].byteAID=2; VTAttrAID[1].typeAID=0; VTAttrAID[1].nameAID="VTValue";  VTAttrAID[1].valueAID=String(VTValue);
+ VTAttrAID[0].numAID=0;   VTAttrAID[0].byteAID=1; VTAttrAID[0].typeAID=0; VTAttrAID[0].nameAID="VTObjType";VTAttrAID[0].valueAID=QString::number(VTObjType);
+ VTAttrAID[1].numAID=1;   VTAttrAID[1].byteAID=2; VTAttrAID[1].typeAID=0; VTAttrAID[1].nameAID="VTValue";  VTAttrAID[1].valueAID=QString::number(VTValue);
  VT_AID_Nr=2;
 };
 
 
 //==============================================================================
 //type=232
-boolean TVTObjectDummy::PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net) {
-boolean valid=(getVTObjectListSize(pVT_Net)>0);
+bool TVTObjectDummy::PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net) {
+bool valid=(getVTObjectListSize(pVT_Net)>0);
 uint8_t  err=0x00;
 uint16_t oLevel=pVT_Net->level;
 int16_t  objIdx=pVT_Net->objNr,refIdx=-1; 
@@ -138,13 +138,13 @@ int16_t  objIdx=pVT_Net->objNr,refIdx=-1;
 
 
 //------------------------------------------------------------------------------
-boolean TVTObjectDummy::writeToStream(TVT_Net *pVT_Net,LoopbackStream *pStream){
+bool TVTObjectDummy::writeToStream(TVT_Net *pVT_Net,LoopbackStream *pStream){
  return writeToStreamDirect(pVT_Net,pStream);
 };
 
 //------------------------------------------------------------------------------
-boolean TVTObjectDummy::readFromStream(TVT_Net *pVT_Net,LoopbackStream *pStream){
-boolean valid=(pStream->available());
+bool TVTObjectDummy::readFromStream(TVT_Net *pVT_Net,LoopbackStream *pStream){
+bool valid=(pStream->available());
 uint16_t i=0,j=0,nn=0;
 uint8_t  bb=0;
 uint32_t ww=0;
@@ -161,7 +161,7 @@ uint32_t ww=0;
          bb=pStream->read(); pVT_Net->streamStr.write(bb);
          ww+=(bb<<(j*8)); 
         }//for j
-       VTAttrAID[i].valueAID=String(ww);
+       VTAttrAID[i].valueAID=QString::number(ww);
     }//for i
    getVTObjectListAdd(pVT_Net);
    pVT_Net->streamStr.clear();
@@ -178,7 +178,7 @@ uint16_t i=0,j=0;
     for (i=1;i<VT_AID_Nr;i++){
      ww=0;
        for (j=0;j<VTAttrAID[i].valueAID.length();j++){
-        ww+=char(VTAttrAID[i].valueAID[j])<<8*j;  
+        ww+=char(VTAttrAID[i].valueAID[j].toLatin1())<<8*j;  
        }//for j
        switch (i) {
         case 1:VTParentObjID=ww;break;
@@ -191,9 +191,9 @@ uint16_t i=0,j=0;
 
 //------------------------------------------------------------------------------
 void TVTObjectDummy::setAID(){
- VTAttrAID[0].numAID=0;   VTAttrAID[0].byteAID=1; VTAttrAID[0].typeAID=0; VTAttrAID[0].nameAID="VTObjType";      VTAttrAID[0].valueAID=String(VTObjType);
- VTAttrAID[1].numAID=1;   VTAttrAID[1].byteAID=2; VTAttrAID[1].typeAID=2; VTAttrAID[1].nameAID="VTParentObjID";  VTAttrAID[1].valueAID=String(VTParentObjID);
- VTAttrAID[2].numAID=2;   VTAttrAID[2].byteAID=1; VTAttrAID[2].typeAID=2; VTAttrAID[2].nameAID="VTParentObjType";VTAttrAID[2].valueAID=String(VTParentObjType);
+ VTAttrAID[0].numAID=0;   VTAttrAID[0].byteAID=1; VTAttrAID[0].typeAID=0; VTAttrAID[0].nameAID="VTObjType";      VTAttrAID[0].valueAID=QString::number(VTObjType);
+ VTAttrAID[1].numAID=1;   VTAttrAID[1].byteAID=2; VTAttrAID[1].typeAID=2; VTAttrAID[1].nameAID="VTParentObjID";  VTAttrAID[1].valueAID=QString::number(VTParentObjID);
+ VTAttrAID[2].numAID=2;   VTAttrAID[2].byteAID=1; VTAttrAID[2].typeAID=2; VTAttrAID[2].nameAID="VTParentObjType";VTAttrAID[2].valueAID=QString::number(VTParentObjType);
  VT_AID_Nr=3;
 };
 

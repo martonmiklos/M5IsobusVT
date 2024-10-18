@@ -8,6 +8,7 @@
 //==============================================================================
 
 #include "UnitVTAuxAssignment.h"
+#include <QDebug>
 
 /*
 TX1 1CEC260A  8  10 11 00 03 FF 00 E7 00
@@ -41,7 +42,7 @@ Unit_Nr=1 / 1
 //TVTAuxiliaryPrefAssignment Implementaion 0x22
 uint8_t TVTAuxiliaryPrefAssignment::setVTAuxAssignList(TVT_Net *pVT_Net,uint8_t dst){
 uint8_t err=0x00,olistNr=pVT_Net->listNr;
-String  wsFuncName=getWSNameFromAddress(pVT_Net,dst), str=wsFuncName;
+QString  wsFuncName=getWSNameFromAddress(pVT_Net,dst), str=wsFuncName;
    //clear 
    if ((wsFuncName=="FFFFFFFFFFFFFFFF") || (VTWSetName=="FFFFFFFFFFFFFFFF")){
     pVT_Net->VTAuxAssignList.clear();
@@ -67,7 +68,7 @@ String  wsFuncName=getWSNameFromAddress(pVT_Net,dst), str=wsFuncName;
    if (err==0x00){
     str+=getStringHEX(VTFunctionReference,4);
     str+=VTWSetName; str+=getStringHEX(VTInputReference,4);
-    //Serial.println(str);
+    //qWarning() << str;
       if (pVT_Net->VTAuxAssignList.indexOf(str)<0){
         pVT_Net->VTAuxAssignList+=str + "\n";
       }
@@ -79,12 +80,12 @@ String  wsFuncName=getWSNameFromAddress(pVT_Net,dst), str=wsFuncName;
 
 
 //------------------------------------------------------------------------------
-boolean TVTAuxiliaryPrefAssignment::setMsgToAttr(CANMsg *pMsg,TVT_Net *pVT_Net,LoopbackStream *pStream){
-boolean valid=false,setClear=false;
+bool TVTAuxiliaryPrefAssignment::setMsgToAttr(CANMsg *pMsg,TVT_Net *pVT_Net,LoopbackStream *pStream){
+bool valid=false,setClear=false;
 uint8_t ctrlByte=0xFF, src=((pMsg->ID)>>0) & 0xFF,i=0,j=0;
 uint8_t dst=((pMsg->ID)>>8) & 0xFF;
 uint16_t funcRef=0xFFFF;
-String  msgStr="",str="",wsName="";
+QString  msgStr="",str="",wsName="";
  VTError=0x00;
   //
   if ((pStream!=NULL) && (pStream->available()>8)) ctrlByte=pStream->read();
@@ -101,21 +102,21 @@ String  msgStr="",str="",wsName="";
          setClear=(VTWSetName=="FFFFFFFFFFFFFFFF");
          //
          VTModelIdentCode=pStream->readBytesVal(2);
-         msgStr+="Unit_Nr=" + String(i+1) + " / " + String(VTInputUnitNumber) + "\n";
+         msgStr+="Unit_Nr=" + QString(i+1) + " / " + QString(VTInputUnitNumber) + "\n";
          msgStr+=" WorkingSetName_hex=" + VTWSetName       + "\n";
          msgStr+=" ModelIdentCode_hex=" + getStringHEX(VTModelIdentCode,4)  + "\n";
          //
          VTPrefFuncNumber=pStream->read();
-         msgStr+="  PrefFuncNumber=" + String(VTPrefFuncNumber) + "\n";
+         msgStr+="  PrefFuncNumber=" + QString(VTPrefFuncNumber) + "\n";
           //          
           if (VTPrefFuncNumber>0){
             for (j=0;j<VTPrefFuncNumber;j++) {
               VTFunctionReference=pStream->readBytesVal(2);
               VTInputReference=pStream->readBytesVal(2);
               //
-              msgStr+="   FuncInpID" + getStringHEX(j,2) + "=" + String(VTFunctionReference) + " ";
+              msgStr+="   FuncInpID" + getStringHEX(j,2) + "=" + QString(VTFunctionReference) + " ";
               msgStr+="[" + getStringHEX(VTFunctionReference,4) + "]";
-              msgStr+=" <- " + String(VTInputReference) + " ";
+              msgStr+=" <- " + QString(VTInputReference) + " ";
               msgStr+="[" + getStringHEX(VTInputReference,4) + "]\n";
               //Check Valid PreferedAssignment and AddInsert() to VTAuxAssignList
               VTError=VTError | setVTAuxAssignList(pVT_Net,dst);
@@ -143,8 +144,8 @@ String  msgStr="",str="",wsName="";
    src=((pMsg->ID)>>8) & 0xFF; //check VT address
     if (((pMsg->ID & 0x00FF0000)==ECUtoVT_PGN) && (src==pVT_Net->VT_SRC) && (pMsg->DATA[0]==VT0PCommFunction)){
      VTInputUnitNumber=pMsg->DATA[1]; i=0;
-     msgStr+="Unit_Nr=" + String(i+1) + " / " + String(VTInputUnitNumber) + "\n";
-     Serial.println(msgStr);
+     msgStr+="Unit_Nr=" + QString(i+1) + " / " + QString(VTInputUnitNumber) + "\n";
+     qWarning() << msgStr;
        //
        //clear aux assignment          
        if (VTInputUnitNumber==0){
@@ -181,8 +182,8 @@ String  msgStr="",str="",wsName="";
 
 //==============================================================================
 //TVTAuxiliaryInputStatus Implementaion   0x23
-boolean TVTAuxiliaryInputStatus::setMsgToAttr(CANMsg *pMsg,TVT_Net *pVT_Net,LoopbackStream *pStream){
-boolean valid=false;
+bool TVTAuxiliaryInputStatus::setMsgToAttr(CANMsg *pMsg,TVT_Net *pVT_Net,LoopbackStream *pStream){
+bool valid=false;
  //TODO
  return valid; 
 };//TVTAuxiliaryInputStatus::setMsgToAttr
@@ -191,8 +192,8 @@ boolean valid=false;
 
 //==============================================================================
 //type  //35 $23
-boolean TVTAuxiliaryInputMaintenance::setMsgToAttr(CANMsg *pMsg,TVT_Net *pVT_Net,LoopbackStream *pStream){
-boolean valid=false;
+bool TVTAuxiliaryInputMaintenance::setMsgToAttr(CANMsg *pMsg,TVT_Net *pVT_Net,LoopbackStream *pStream){
+bool valid=false;
  //TODO
  return valid; 
 };//TVTAuxiliaryInputMaintenance::setMsgToAttr
@@ -200,41 +201,41 @@ boolean valid=false;
 
 //==============================================================================
 //type   //35 $25
-boolean TVTAuxiliaryInputStatusEnable::setMsgToAttr(CANMsg *pMsg,TVT_Net *pVT_Net,LoopbackStream *pStream){
-boolean  valid=false,TEST=false;
+bool TVTAuxiliaryInputStatusEnable::setMsgToAttr(CANMsg *pMsg,TVT_Net *pVT_Net,LoopbackStream *pStream){
+bool  valid=false,TEST=false;
 uint16_t auxFuncID=0xFFFF,auxInpID=0xFFFF;
 uint8_t  dst=0xFF,oList=pVT_Net->listNr;
 int8_t   WS_auxFunc_listNr=-1,WS_auxInp_listNr=-1;
-String   str=pVT_Net->VTAuxAssignList,WS_auxFunc="",WS_auxInp="",auxFunc="",auxInp="";
+QString   str=pVT_Net->VTAuxAssignList,WS_auxFunc="",WS_auxInp="",auxFunc="",auxInp="";
    //
    while (str.length()>=40){
-     WS_auxFunc=str.substring(0,16); 
-     auxFunc=str.substring(16,20); 
+     WS_auxFunc=str.mid(0,16);
+     auxFunc=str.mid(16,20);
      auxFuncID=hexCharacterToObjID(auxFunc);
      WS_auxFunc_listNr=getWSlistNrFromName(pVT_Net,WS_auxFunc);
      //
-     WS_auxInp=str.substring(20,36); 
-     auxInp=str.substring(36,40); 
+     WS_auxInp=str.mid(20,36);
+     auxInp=str.mid(36,40);
      auxInpID=hexCharacterToObjID(auxInp);
      WS_auxInp_listNr=getWSlistNrFromName(pVT_Net,WS_auxInp);
        //
        if (TEST){
-         Serial.println("WS_auxFunc=" + WS_auxFunc);
-         Serial.println("auxFunc="    + auxFunc + "/" + String(auxFuncID));
-         Serial.println("WS_auxFunc_listNr=" + String(WS_auxFunc_listNr));
+         qWarning() << "WS_auxFunc=" + WS_auxFunc;
+         qWarning() << "auxFunc="    + auxFunc + "/" + QString(auxFuncID);
+         qWarning() << "WS_auxFunc_listNr=" + QString(WS_auxFunc_listNr);
          auxFuncID=hexCharacterToObjID(auxFunc);
          //
-         Serial.println("WS_auxInp="  + WS_auxInp);
-         Serial.println("auxInp="     + auxInp + "/" + String(auxInpID));
-         Serial.println("WS_auxInp_listNr=" + String(WS_auxInp_listNr));
+         qWarning() << "WS_auxInp="  + WS_auxInp;
+         qWarning() << "auxInp="     + auxInp + "/" + QString(auxInpID);
+         qWarning() << "WS_auxInp_listNr=" + QString(WS_auxInp_listNr);
        }
        //
        //FOUND AUX_ASSIGN
        //found auxInp assignment for auxFunc
        if ((auxInpID<0xFFFF) && (auxFuncID<0xFFFF)) {
         VTObjectReference=auxInpID; VTEnabled=true;
-        Serial.print("FOUND auxInpID=" + String(auxInpID));
-        Serial.println("->WS_auxInp_listNr=" + String(WS_auxInp_listNr));
+        qWarning() << "FOUND auxInpID=" + QString(auxInpID);
+        qWarning() << "->WS_auxInp_listNr=" + QString(WS_auxInp_listNr);
           //
           if ((WS_auxInp_listNr<2) && (oList!=WS_auxInp_listNr)) {
             pVT_Net->listNr=(pVT_Net->listNr+1) % 2;

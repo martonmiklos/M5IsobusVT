@@ -20,18 +20,18 @@ class  TVTExternalObject : public TVTObject{
     uint8_t VTEventNr=1;
     uint8_t VTEventList[1]={VTOnChangeAttribute};
   public:
-    String  VTObjName="VTExternalObject";
-    boolean  VTOptions=false;
+    QString  VTObjName="VTExternalObject";
+    bool  VTOptions=false;
     uint32_t VTName0=0xFFFFFFFF;
     uint32_t VTName1=0xFFFFFFFF;
-    String   VTItems="";
+    QString   VTItems="";
     //helper
-    String   VTZWorkingSetName="";
+    QString   VTZWorkingSetName="";
     uint16_t VTZExternalObjectRef=0xFFFF;
     //procedure
-    boolean PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net);
-    boolean writeToStream (TVT_Net *pVT_Net,LoopbackStream *pStream);
-    boolean readFromStream(TVT_Net *pVT_Net,LoopbackStream *pStream);
+    bool PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net);
+    bool writeToStream (TVT_Net *pVT_Net,LoopbackStream *pStream);
+    bool readFromStream(TVT_Net *pVT_Net,LoopbackStream *pStream);
     void setAID();
     void getAID();
 };
@@ -43,12 +43,12 @@ class  TVTExternalObjectDefinition : public TVTExternalObject{
   private:
   protected:
   public:
-    String  VTObjName="VTExternalObjectDefinition";
+    QString  VTObjName="VTExternalObjectDefinition";
     //uint8_t VTObjType=41;
     //helper
     uint8_t VTZChangeIndex=0;
     //procedure
-    //boolean PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net);
+    //bool PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net);
 };
 
 
@@ -58,12 +58,12 @@ class  TVTExternalReferenceName : public TVTExternalObject{
   private:
   protected:
   public:
-    String  VTObjName="VTExternalReferenceName";
+    QString  VTObjName="VTExternalReferenceName";
     //uint8_t VTObjType=42;
     //helper
     //
     //procedure
-   // boolean PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net);
+   // bool PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net);
 };
 
 
@@ -77,18 +77,18 @@ class  TVTExternalObjectPointer : public TVTObject{
     uint8_t VTEventNr=1;
     uint8_t VTEventList[1]={VTOnChangeAttribute};
   public:
-    String  VTObjName="VTExternalObjectPointer";
+    QString  VTObjName="VTExternalObjectPointer";
     //uint8_t  VTObjType=43;
     uint16_t VTDefaultObjectRef =0xFFFF;
     uint16_t VTExternalNameRef  =0xFFFF;
     uint16_t VTExternalObjectRef=0xFFFF;
-    String   VTValidationBitmask="";
+    QString   VTValidationBitmask="";
     //helper
-    boolean VTZ_ExternalMode=false;;
+    bool VTZ_ExternalMode=false;;
     //procedure
-    boolean PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net);
-    boolean writeToStream (TVT_Net *pVT_Net,LoopbackStream *pStream);
-    boolean readFromStream(TVT_Net *pVT_Net,LoopbackStream *pStream);
+    bool PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net);
+    bool writeToStream (TVT_Net *pVT_Net,LoopbackStream *pStream);
+    bool readFromStream(TVT_Net *pVT_Net,LoopbackStream *pStream);
     void setAID();
     void getAID();
 };

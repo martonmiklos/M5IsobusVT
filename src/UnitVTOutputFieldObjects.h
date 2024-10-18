@@ -23,20 +23,20 @@ class   TVTFieldObject: public TVTObject{
     uint16_t VTWidth=50;
     uint16_t VTFontAttributes=0xFFFF;
     uint16_t VTVariableReference=0xFFFF;
-    boolean  VTZFontSynchron=false;
-    String   VTZValue="";
+    bool  VTZFontSynchron=false;
+    QString   VTZValue="";
     //
     uint8_t VTJustification=0x00;
     uint8_t VTJust_Horz=0x00;
     uint8_t VTJust_Vert=0x00;
     uint8_t VTBackgroundColour=0x01;
     //list
-    String VTMacros="";
+    QString VTMacros="";
     //
     //procedure
-    virtual boolean PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net){};
-    virtual boolean writeToStream (TVT_Net *pVT_Net,LoopbackStream *pStream){};
-    virtual boolean readFromStream(TVT_Net *pVT_Net,LoopbackStream *pStream){};
+    virtual bool PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net){};
+    virtual bool writeToStream (TVT_Net *pVT_Net,LoopbackStream *pStream){};
+    virtual bool readFromStream(TVT_Net *pVT_Net,LoopbackStream *pStream){};
     virtual void setAID(){};
     virtual void getAID(){};
 };  
@@ -51,9 +51,9 @@ class   TVTOutputFieldObject: public TVTFieldObject{
   public:
     uint16_t VTHeight=50;
     //procedure
-    virtual boolean PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net){};
-    virtual boolean writeToStream (TVT_Net *pVT_Net,LoopbackStream *pStream){};
-    virtual boolean readFromStream(TVT_Net *pVT_Net,LoopbackStream *pStream){};
+    virtual bool PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net){};
+    virtual bool writeToStream (TVT_Net *pVT_Net,LoopbackStream *pStream){};
+    virtual bool readFromStream(TVT_Net *pVT_Net,LoopbackStream *pStream){};
     virtual void setAID(){};
     virtual void getAID(){};
 };  
@@ -65,19 +65,19 @@ class   TVTOutputStringField: public TVTOutputFieldObject{
   private:
   protected:
   public:
-    String   VTObjName="VTOutputStringField";
+    QString   VTObjName="VTOutputStringField";
     //uint8_t  VTObjType=11;
     uint8_t  VTOptions=0x00;
     uint16_t VTLength=4;
-    String   VTValue="TEXT";
-    boolean  VTZValidLength=true;
-    boolean  VTZValidCheck=true;
-    boolean  VTZUniCode=false;
+    QString   VTValue="TEXT";
+    bool  VTZValidLength=true;
+    bool  VTZValidCheck=true;
+    bool  VTZUniCode=false;
     //
     //procedure
-    virtual boolean PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net);
-    virtual boolean writeToStream (TVT_Net *pVT_Net,LoopbackStream *pStream);
-    virtual boolean readFromStream(TVT_Net *pVT_Net,LoopbackStream *pStream);
+    virtual bool PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net);
+    virtual bool writeToStream (TVT_Net *pVT_Net,LoopbackStream *pStream);
+    virtual bool readFromStream(TVT_Net *pVT_Net,LoopbackStream *pStream);
     void setAID();
     void getAID();
 };  
@@ -90,20 +90,20 @@ class   TVTOutputNumberField: public TVTOutputFieldObject{
   private:
   protected:
   public:
-    String   VTObjName="VTOutputNumberField";
+    QString   VTObjName="VTOutputNumberField";
     //uint8_t  VTObjType=12;
     uint8_t  VTOptions=0x00;
     uint32_t VTValue=0;
     int32_t  VTOffset=0;
     int32_t  VTScale=1;
-    boolean  VTZScaleCalc=true;
+    bool  VTZScaleCalc=true;
     //   
     uint8_t  VTNumOfDecimals=0;
-    boolean  VTFormat=false;
+    bool  VTFormat=false;
     //procedure
-    boolean PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net);
-    boolean writeToStream (TVT_Net *pVT_Net,LoopbackStream *pStream);
-    boolean readFromStream(TVT_Net *pVT_Net,LoopbackStream *pStream);
+    bool PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net);
+    bool writeToStream (TVT_Net *pVT_Net,LoopbackStream *pStream);
+    bool readFromStream(TVT_Net *pVT_Net,LoopbackStream *pStream);
     void setAID();
     void getAID();
 };  
@@ -118,20 +118,20 @@ class   TVTOutputListField: public TVTOutputFieldObject{
   private:
   protected:
   public:
-    String   VTObjName="VTOutputListField";
+    QString   VTObjName="VTOutputListField";
     //uint8_t  VTObjType=37;
     uint8_t ActiveItem=0;
     uint8_t VTZChangeIndex=0;
     //
     uint8_t VTValue=0;
     uint8_t VTBackgroundColour=0;
-    boolean VTZSkipMode=false;
+    bool VTZSkipMode=false;
     //list
-    String VTItems="";
+    QString VTItems="";
     //procedure
-    boolean PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net);
-    boolean writeToStream (TVT_Net *pVT_Net,LoopbackStream *pStream);
-    boolean readFromStream(TVT_Net *pVT_Net,LoopbackStream *pStream);
+    bool PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net);
+    bool writeToStream (TVT_Net *pVT_Net,LoopbackStream *pStream);
+    bool readFromStream(TVT_Net *pVT_Net,LoopbackStream *pStream);
     void setAID();
     void getAID();
 };  

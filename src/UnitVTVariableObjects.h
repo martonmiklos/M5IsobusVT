@@ -21,13 +21,13 @@ class  TVTNumberVariable : public TVTObject{
     uint8_t VTEventNr=1;
     uint8_t VTEventList[1]={VTOnChangeValue};
   public:
-    String  VTObjName="VTNumberVariable";
+    QString  VTObjName="VTNumberVariable";
     //uint8_t VTObjType=21;
     uint32_t VTValue=0;
     //procedure
-    boolean PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net);
-    boolean writeToStream (TVT_Net *pVT_Net,LoopbackStream *pStream);
-    boolean readFromStream(TVT_Net *pVT_Net,LoopbackStream *pStream);
+    bool PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net);
+    bool writeToStream (TVT_Net *pVT_Net,LoopbackStream *pStream);
+    bool readFromStream(TVT_Net *pVT_Net,LoopbackStream *pStream);
     void setAID();
     void getAID();
 };
@@ -42,17 +42,17 @@ class TVTStringVariable :public TVTObject{
     uint8_t VTEventList[1]={VTOnChangeValue};
 
   public:
-    String  VTObjName="VTStringVariable";
+    QString  VTObjName="VTStringVariable";
     //uint8_t VTObjType=22;
     uint16_t VTLength=4;
-    String   VTValue="TEST";
-    boolean  VTZValidLength=true;
-    boolean  VTZValidCheck=true;
-    boolean  VTZUniCode=false;
+    QString   VTValue="TEST";
+    bool  VTZValidLength=true;
+    bool  VTZValidCheck=true;
+    bool  VTZUniCode=false;
     //procedure
-    boolean PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net);
-    boolean writeToStream (TVT_Net *pVT_Net,LoopbackStream *pStream);
-    boolean readFromStream(TVT_Net *pVT_Net,LoopbackStream *pStream);
+    bool PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net);
+    bool writeToStream (TVT_Net *pVT_Net,LoopbackStream *pStream);
+    bool readFromStream(TVT_Net *pVT_Net,LoopbackStream *pStream);
     //
     void setAID();
     void getAID();
@@ -67,17 +67,17 @@ class TVTColourMap :public TVTObject{
     uint8_t VTEventNr=1;
     uint8_t VTEventList[1]={VTOnRefresh};
   public:
-    String  VTObjName="VTColourMap";
+    QString  VTObjName="VTColourMap";
     //uint8_t VTObjType=39;
     uint16_t VTIndexNumber=2; //TVTColourMapTyp;
     //helper
     uint8_t VTZIndexItem=0;
-    boolean VTZIndexChange=false;
+    bool VTZIndexChange=false;
     //procedure
-    boolean PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net);
+    bool PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net);
     void    setVTColourMap(TVT_Net *pVT_Net);
-    boolean writeToStream (TVT_Net *pVT_Net,LoopbackStream *pStream);
-    boolean readFromStream(TVT_Net *pVT_Net,LoopbackStream *pStream);
+    bool writeToStream (TVT_Net *pVT_Net,LoopbackStream *pStream);
+    bool readFromStream(TVT_Net *pVT_Net,LoopbackStream *pStream);
     //
     void setAID();
     void getAID();
@@ -91,18 +91,18 @@ class TVTColourPalette :public TVTObject{
     uint8_t VTEventNr=1;
     uint8_t VTEventList[1]={VTOnChangeAttribute};
   public:
-    String  VTObjName="VTColourPalette";
+    QString  VTObjName="VTColourPalette";
     //uint8_t VTObjType=45;
     uint16_t VTOptions=0;
     uint16_t VTColourItems=0; 
     //helper
     uint8_t VTZIndexItem=0;
-    boolean VTZIndexChange=false;
+    bool VTZIndexChange=false;
     //procedure
-    boolean PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net);
+    bool PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net);
     void    setVTColourPalette(TVT_Net *pVT_Net);
-    boolean writeToStream (TVT_Net *pVT_Net,LoopbackStream *pStream);
-    boolean readFromStream(TVT_Net *pVT_Net,LoopbackStream *pStream);
+    bool writeToStream (TVT_Net *pVT_Net,LoopbackStream *pStream);
+    bool readFromStream(TVT_Net *pVT_Net,LoopbackStream *pStream);
     //
     void setAID();
     void getAID();
@@ -117,22 +117,22 @@ class TVTGraphicData :public TVTObject{
     uint8_t VTEventNr=1;
     uint8_t VTEventList[1]={VTOnRefresh};
   public:
-    String  VTObjName="VTGraphicData";
+    QString  VTObjName="VTGraphicData";
     //uint8_t VTObjType=46;
     uint8_t  VTFormat=0;
-    String   VTPicData=""; //TMemoryStream;
+    QString   VTPicData=""; //TMemoryStream;
     //uint32_t VTRawCount=0;
     //helper
-    String   VTZPictureFileName="";
+    QString   VTZPictureFileName="";
     uint8_t  Scale=1;
     uint16_t ScaleWidth=0;
     uint16_t ScaleHeight=0;
     uint8_t  ScaleType=0;
     uint8_t  ScaleOptions=0;
     //procedure
-    boolean PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net);
-    boolean writeToStream (TVT_Net *pVT_Net,LoopbackStream *pStream);
-    boolean readFromStream(TVT_Net *pVT_Net,LoopbackStream *pStream);
+    bool PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net);
+    bool writeToStream (TVT_Net *pVT_Net,LoopbackStream *pStream);
+    bool readFromStream(TVT_Net *pVT_Net,LoopbackStream *pStream);
     //
     void setAID();
     void getAID();
@@ -146,7 +146,7 @@ class TVTScaledGraphic :public TVTObject{
     uint8_t VTEventNr=2;
     uint8_t VTEventList[2]={VTOnChangeAttribute,VTOnChangeValue};
   public:
-    String  VTObjName="VTScaledGraphic";
+    QString  VTObjName="VTScaledGraphic";
     //uint8_t VTObjType=48;
     uint16_t VTWidth=0;
     uint16_t VTHeight=0;
@@ -160,13 +160,13 @@ class TVTScaledGraphic :public TVTObject{
     uint8_t  VTScaleOptions=0;//TVTScaleOption;
     uint16_t VTValue=0xFFFF;
     //
-    String VTMacros="";
+    QString VTMacros="";
     //helper
-    boolean VTZClipping=false;
+    bool VTZClipping=false;
     //procedure
-    boolean PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net);
-    boolean writeToStream (TVT_Net *pVT_Net,LoopbackStream *pStream);
-    boolean readFromStream(TVT_Net *pVT_Net,LoopbackStream *pStream);
+    bool PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net);
+    bool writeToStream (TVT_Net *pVT_Net,LoopbackStream *pStream);
+    bool readFromStream(TVT_Net *pVT_Net,LoopbackStream *pStream);
     //
     void setAID();
     void getAID();
@@ -181,17 +181,17 @@ class TVTWorkingSetControl :public TVTObject{
     uint8_t VTEventNr=1;
     uint8_t VTEventList[1]={VTOnRefresh};
   public:
-    String   VTObjName="VTWorkingSetControl";
+    QString   VTObjName="VTWorkingSetControl";
     //uint8_t  VTObjType=47;
     uint8_t  VTByteNumber=0;
     uint16_t VTColourMap=0xFFFF;
     uint16_t VTColourPalette=0xFFFF;
-    String   VTLanguages="";
+    QString   VTLanguages="";
     //
     //procedure
-    boolean PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net);
-    boolean writeToStream (TVT_Net *pVT_Net,LoopbackStream *pStream);
-    boolean readFromStream(TVT_Net *pVT_Net,LoopbackStream *pStream);
+    bool PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net);
+    bool writeToStream (TVT_Net *pVT_Net,LoopbackStream *pStream);
+    bool readFromStream(TVT_Net *pVT_Net,LoopbackStream *pStream);
     //
     void setAID();
     void getAID();

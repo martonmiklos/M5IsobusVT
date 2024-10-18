@@ -21,20 +21,20 @@ class  TVTSoftKeyMask :public TVTObjectBgCol  {
     uint8_t VTEventList[4]={VTOnShow,VTOnHide,VTOnChangeSoftKeyMask,
                             VTOnChangeAttribute};
   public:
-    String   VTObjName="VTSoftKeyMask";
+    QString   VTObjName="VTSoftKeyMask";
     //uint8_t VTObjType=4;
-    String  VTItems=""; //TVTObjectItemList;
-    String  VTMacros="";  //TVTMacroList;
+    QString  VTItems=""; //TVTObjectItemList;
+    QString  VTMacros="";  //TVTMacroList;
     //procedure
-    String  getVTObjName(){return VTObjName;}; 
-    boolean PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net);
-    boolean writeToStream (TVT_Net *pVT_Net,LoopbackStream *pStream);
-    boolean readFromStream(TVT_Net *pVT_Net,LoopbackStream *pStream);
+    QString  getVTObjName(){return VTObjName;}; 
+    bool PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net);
+    bool writeToStream (TVT_Net *pVT_Net,LoopbackStream *pStream);
+    bool readFromStream(TVT_Net *pVT_Net,LoopbackStream *pStream);
     void setAID();
     void getAID();
     //
-    String getItems()     {return VTItems;};
-    String getMacros()    {return VTMacros;};
+    QString getItems()     {return VTItems;};
+    QString getMacros()    {return VTMacros;};
 };
 
 
@@ -49,21 +49,21 @@ class TVTKey : public TVTObjectBgCol{
                             VTOnChangeAttribute,VTOnChangeChildLocation,VTOnChangeChildPosition,
                             VTOnInputFieldSelection,VTOnInputFieldDeselection};
   public:
-    String   VTObjName="VTKey";
+    QString   VTObjName="VTKey";
     //uint8_t  VTObjType=5;
     //uint16_t VTInputStatus=0;
     uint8_t  VTKeyCode=0;
-    String  VTObjects ="";//TVTObjectList;
-    String  VTMacros="";  //TVTMacroList;
+    QString  VTObjects ="";//TVTObjectList;
+    QString  VTMacros="";  //TVTMacroList;
     //procedure
-    boolean PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net);
-    boolean writeToStream  (TVT_Net *pVT_Net,LoopbackStream *pStream);
-    boolean readFromStream (TVT_Net *pVT_Net,LoopbackStream *pStream);
+    bool PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net);
+    bool writeToStream  (TVT_Net *pVT_Net,LoopbackStream *pStream);
+    bool readFromStream (TVT_Net *pVT_Net,LoopbackStream *pStream);
     void setAID();
     void getAID();
     //
-    String getObjects()   {return VTObjects;};
-    String getMacros()    {return VTMacros;};
+    QString getObjects()   {return VTObjects;};
+    QString getMacros()    {return VTMacros;};
 };
 
 //------------------------------------------------------------------------------
@@ -79,7 +79,7 @@ class TVTButton : public TVTObject {
                             VTOnEnable,VTOnDisable,
                             VTOnInputFieldSelection,VTOnInputFieldDeselection};
   public:
-    String   VTObjName="VTButton";
+    QString   VTObjName="VTButton";
     //uint8_t VTObjType=6;
     int16_t VTInputStatus=0;
     int16_t VTWidth=0;
@@ -89,17 +89,17 @@ class TVTButton : public TVTObject {
     uint8_t VTBorderColour=0;
     uint8_t VTKeyCode=0;
     uint8_t VTOptions=0;
-    String  VTObjects ="";//TVTObjectList;
-    String  VTMacros="";  //TVTMacroList;
+    QString  VTObjects ="";//TVTObjectList;
+    QString  VTMacros="";  //TVTMacroList;
     //procedure
-    boolean PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net);
-    boolean writeToStream (TVT_Net *pVT_Net,LoopbackStream *pStream);
-    boolean readFromStream(TVT_Net *pVT_Net,LoopbackStream *pStream);
+    bool PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net);
+    bool writeToStream (TVT_Net *pVT_Net,LoopbackStream *pStream);
+    bool readFromStream(TVT_Net *pVT_Net,LoopbackStream *pStream);
     void setAID();
     void getAID();
     //
-    String getObjects()   {return VTObjects;};
-    String getMacros()    {return VTMacros;};
+    QString getObjects()   {return VTObjects;};
+    QString getMacros()    {return VTMacros;};
 };
 
 
@@ -115,24 +115,24 @@ class  TVTKeyGroupObject :public TVTObject {
     uint8_t VTEventNr=1;
     uint8_t VTEventList[1]={VTOnChangeAttribute};
   public:
-    String  VTObjName="TVTKeyGroupObject";
+    QString  VTObjName="TVTKeyGroupObject";
     //uint8_t VTObjType=35;
     uint8_t VTOptions=0;    //TVTKeyGroupOption;
     //
     uint16_t VTName        =0xFFFF;
     uint16_t VTKeyGroupIcon=0xFFFF;
     //
-    String VTItems=""; //TVTObjectItemList;
-    String VTMacros=""; //TVTMacroList;
+    QString VTItems=""; //TVTObjectItemList;
+    QString VTMacros=""; //TVTMacroList;
     //procedure
-    boolean  PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net);
-    boolean  writeToStream  (TVT_Net *pVT_Net,LoopbackStream *pStream);
-    boolean  readFromStream (TVT_Net *pVT_Net,LoopbackStream *pStream);
+    bool  PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net);
+    bool  writeToStream  (TVT_Net *pVT_Net,LoopbackStream *pStream);
+    bool  readFromStream (TVT_Net *pVT_Net,LoopbackStream *pStream);
     void setAID();
     void getAID();
     //
-    String getItems()     {return VTItems;};
-    String getMacros()    {return VTMacros;};
+    QString getItems()     {return VTItems;};
+    QString getMacros()    {return VTMacros;};
 };
 
 
@@ -145,18 +145,18 @@ class  TVTLabelReferenceListObject :public TVTObject {
     uint8_t VTEventNr=1;
     uint8_t VTEventList[1]={VTOnRefresh};
   public:
-    String  VTObjName="VTLabelReferenceListObject";
+    QString  VTObjName="VTLabelReferenceListObject";
     //uint8_t VTObjType=40;
     //
-    String VTLabels=""; //TVTObjectLabelList;
+    QString VTLabels=""; //TVTObjectLabelList;
     //procedure
-    boolean  PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net);
-    boolean  writeToStream  (TVT_Net *pVT_Net,LoopbackStream *pStream);
-    boolean  readFromStream (TVT_Net *pVT_Net,LoopbackStream *pStream);
+    bool  PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net);
+    bool  writeToStream  (TVT_Net *pVT_Net,LoopbackStream *pStream);
+    bool  readFromStream (TVT_Net *pVT_Net,LoopbackStream *pStream);
     void setAID();
     void getAID();
     //
-    String getLabels()     {return VTLabels;};
+    QString getLabels()     {return VTLabels;};
 };
 
 

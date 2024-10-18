@@ -19,8 +19,8 @@
 //==============================================================================
 //==============================================================================
 //line and fill of shape
-boolean TVTOutputShapeObject::getLineAndFill(uint16_t lineID, uint16_t fillID, TVT_Net *pVT_Net) {
-boolean valid=(getVTObjectListSize(pVT_Net)>0),setFill=false;
+bool TVTOutputShapeObject::getLineAndFill(uint16_t lineID, uint16_t fillID, TVT_Net *pVT_Net) {
+bool valid=(getVTObjectListSize(pVT_Net)>0),setFill=false;
 uint8_t cIdx=0;
 int16_t objIdx=pVT_Net->objNr, refIdx=-1;
   if (valid){
@@ -51,9 +51,9 @@ int16_t objIdx=pVT_Net->objNr, refIdx=-1;
                 ah=getVTObjectAttributeInt32("VTActualHeight",pVT_Net);
                 /*
                 //TEST
-                Serial.println(fillAttr);   
-                Serial.println(aw);   
-                Serial.println(ah);   
+                qWarning() << fillAttr;   
+                qWarning() << aw;   
+                qWarning() << ah;   
                 */
                 pVT_Net->objNr=refIdx;
                 fillColor=cl_transp;   //pVT_Net->patternTransp;
@@ -68,8 +68,8 @@ int16_t objIdx=pVT_Net->objNr, refIdx=-1;
 
 //------------------------------------------------------------------------------
 //fillPattern, fill with bitmap
-boolean TVTOutputShapeObject::PaintObjToFillBitmap(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net,TVTPoints points[],uint16_t pNr) {
-boolean valid=(getVTObjectListSize(pVT_Net)>0);
+bool TVTOutputShapeObject::PaintObjToFillBitmap(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net,TVTPoints points[],uint16_t pNr) {
+bool valid=(getVTObjectListSize(pVT_Net)>0);
 int16_t  x=pVT_Net->x,y=pVT_Net->y;
 uint16_t w=pVT_Net->w,h=pVT_Net->h;
   if ((valid) && (points!=NULL) && (pNr>=3)) {
@@ -85,8 +85,8 @@ uint16_t w=pVT_Net->w,h=pVT_Net->h;
 //==============================================================================
 //==============================================================================
 //type=13
-boolean TVTLine::PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net) {
-boolean  valid=(getVTObjectListSize(pVT_Net)>0),setFill=false;
+bool TVTLine::PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net) {
+bool  valid=(getVTObjectListSize(pVT_Net)>0),setFill=false;
 uint8_t  cIdx=0;
 int16_t  x=pVT_Net->x, y=pVT_Net->y,refIdx=-1;
 uint16_t w=0,h=0,oLevel=pVT_Net->level;
@@ -96,8 +96,8 @@ int16_t objIdx=pVT_Net->objNr;
  setAID(); setAID_Net(pVT_Net);
   if (pViewRect==NULL) {
       if (pVT_Net->nameAttr=="VTMacros"){
-       getAID(); pVT_Net->newValueAttr=String(VTEvent);
-       pVT_Net->nameAttr=String(VTMacros);
+       getAID(); pVT_Net->newValueAttr=QString::number(VTEvent);
+       pVT_Net->nameAttr= VTMacros;
        return valid;   
       }
       if (pVT_Net->nameAttr!="") err=SetVTObjectAttributeDirect(pVT_Net->nameAttr, pVT_Net->newValueAttr,pVT_Net);
@@ -135,13 +135,13 @@ int16_t objIdx=pVT_Net->objNr;
 
 
 //------------------------------------------------------------------------------
-boolean TVTLine::writeToStream(TVT_Net *pVT_Net,LoopbackStream *pStream){
+bool TVTLine::writeToStream(TVT_Net *pVT_Net,LoopbackStream *pStream){
  return writeToStreamDirect(pVT_Net,pStream);
 };
 
 //------------------------------------------------------------------------------
-boolean TVTLine::readFromStream(TVT_Net *pVT_Net,LoopbackStream *pStream){
-boolean valid=(pStream->available());
+bool TVTLine::readFromStream(TVT_Net *pVT_Net,LoopbackStream *pStream){
+bool valid=(pStream->available());
 uint16_t i=0,j=0,nn=0;
 uint8_t  bb=0;
 uint32_t ww=0;
@@ -158,7 +158,7 @@ uint32_t ww=0;
          bb=pStream->read(); pVT_Net->streamStr.write(bb);
          ww+=(bb<<(j*8)); 
         }//for j
-       VTAttrAID[i].valueAID=String(ww);
+       VTAttrAID[i].valueAID=QString::number(ww);
     }//for i
     //
     for (i=5;i<VT_AID_Nr;i++) {
@@ -179,7 +179,7 @@ uint16_t i=0,j=0;
     for (i=1;i<VT_AID_Nr;i++){
      ww=0;
        for (j=0;j<VTAttrAID[i].valueAID.length();j++){
-        ww+=char(VTAttrAID[i].valueAID[j])<<8*j;  
+        ww+=char(VTAttrAID[i].valueAID[j].toLatin1())<<8*j;  
        }//for j
        switch (i) {
         case 1:VTLineAttributes =ww;VTEvent+=2;break;
@@ -195,11 +195,11 @@ uint16_t i=0,j=0;
 
 //------------------------------------------------------------------------------
 void TVTLine::setAID(){
- VTAttrAID[0].numAID=0;  VTAttrAID[0].byteAID=1; VTAttrAID[0].typeAID=0; VTAttrAID[0].nameAID="VTObjType";       VTAttrAID[0].valueAID=String(VTObjType);
- VTAttrAID[1].numAID=1;  VTAttrAID[1].byteAID=2; VTAttrAID[1].typeAID=1; VTAttrAID[1].nameAID="VTLineAttributes";VTAttrAID[1].valueAID=String(VTLineAttributes);
- VTAttrAID[2].numAID=2;  VTAttrAID[2].byteAID=2; VTAttrAID[2].typeAID=1; VTAttrAID[2].nameAID="VTWidth";         VTAttrAID[2].valueAID=String(VTWidth);
- VTAttrAID[3].numAID=3;  VTAttrAID[3].byteAID=2; VTAttrAID[3].typeAID=1; VTAttrAID[3].nameAID="VTHeight";        VTAttrAID[3].valueAID=String(VTHeight); 
- VTAttrAID[4].numAID=4;  VTAttrAID[4].byteAID=1; VTAttrAID[4].typeAID=1; VTAttrAID[4].nameAID="VTLineDirection"; VTAttrAID[4].valueAID=String(VTLineDirection);
+ VTAttrAID[0].numAID=0;  VTAttrAID[0].byteAID=1; VTAttrAID[0].typeAID=0; VTAttrAID[0].nameAID="VTObjType";       VTAttrAID[0].valueAID=QString::number(VTObjType);
+ VTAttrAID[1].numAID=1;  VTAttrAID[1].byteAID=2; VTAttrAID[1].typeAID=1; VTAttrAID[1].nameAID="VTLineAttributes";VTAttrAID[1].valueAID=QString::number(VTLineAttributes);
+ VTAttrAID[2].numAID=2;  VTAttrAID[2].byteAID=2; VTAttrAID[2].typeAID=1; VTAttrAID[2].nameAID="VTWidth";         VTAttrAID[2].valueAID=QString::number(VTWidth);
+ VTAttrAID[3].numAID=3;  VTAttrAID[3].byteAID=2; VTAttrAID[3].typeAID=1; VTAttrAID[3].nameAID="VTHeight";        VTAttrAID[3].valueAID=QString::number(VTHeight); 
+ VTAttrAID[4].numAID=4;  VTAttrAID[4].byteAID=1; VTAttrAID[4].typeAID=1; VTAttrAID[4].nameAID="VTLineDirection"; VTAttrAID[4].valueAID=QString::number(VTLineDirection);
  //
  VTAttrAID[5].numAID=5;  VTAttrAID[5].byteAID=1; VTAttrAID[5].typeAID=2; VTAttrAID[5].nameAID="VTMacros";        VTAttrAID[5].valueAID=VTMacros;
  VT_AID_Nr=6;
@@ -208,8 +208,8 @@ void TVTLine::setAID(){
 
 //==============================================================================
 //type=14
-boolean TVTRectangle::PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net) {
-boolean valid=(getVTObjectListSize(pVT_Net)>0),setFill=false;
+bool TVTRectangle::PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net) {
+bool valid=(getVTObjectListSize(pVT_Net)>0),setFill=false;
 uint8_t lineSup=0;
 int16_t x=pVT_Net->x, y=pVT_Net->y,xx=x, yy=y,ox=x,oy=y;
 uint16_t w=0,h=0,ww=w,hh=h,oLevel=pVT_Net->level;
@@ -219,8 +219,8 @@ int16_t objIdx=pVT_Net->objNr;
  setAID(); setAID_Net(pVT_Net);
   if (pViewRect==NULL) {
       if (pVT_Net->nameAttr=="VTMacros"){
-       getAID(); pVT_Net->newValueAttr=String(VTEvent);
-       pVT_Net->nameAttr=String(VTMacros);
+       getAID(); pVT_Net->newValueAttr=QString::number(VTEvent);
+       pVT_Net->nameAttr= VTMacros;
        return valid;   
       }
       if (pVT_Net->nameAttr!="") err=SetVTObjectAttributeDirect(pVT_Net->nameAttr, pVT_Net->newValueAttr,pVT_Net);
@@ -323,13 +323,13 @@ int16_t objIdx=pVT_Net->objNr;
 
 
 //------------------------------------------------------------------------------
-boolean TVTRectangle::writeToStream(TVT_Net *pVT_Net,LoopbackStream *pStream){
+bool TVTRectangle::writeToStream(TVT_Net *pVT_Net,LoopbackStream *pStream){
  return writeToStreamDirect(pVT_Net,pStream);
 };
 
 //------------------------------------------------------------------------------
-boolean TVTRectangle::readFromStream(TVT_Net *pVT_Net,LoopbackStream *pStream){
-boolean valid=(pStream->available());
+bool TVTRectangle::readFromStream(TVT_Net *pVT_Net,LoopbackStream *pStream){
+bool valid=(pStream->available());
 uint16_t i=0,j=0,nn=0;
 uint8_t  bb=0;
 uint32_t ww=0;
@@ -346,7 +346,7 @@ uint32_t ww=0;
          bb=pStream->read(); pVT_Net->streamStr.write(bb);
          ww+=(bb<<(j*8)); 
         }//for j
-       VTAttrAID[i].valueAID=String(ww);
+       VTAttrAID[i].valueAID=QString::number(ww);
     }//for i
     //
     for (i=6;i<VT_AID_Nr;i++) {
@@ -369,7 +369,7 @@ uint16_t i=0,j=0;
     for (i=1;i<VT_AID_Nr;i++){
      ww=0;
        for (j=0;j<VTAttrAID[i].valueAID.length();j++){
-        ww+=char(VTAttrAID[i].valueAID[j])<<8*j;  
+        ww+=char(VTAttrAID[i].valueAID[j].toLatin1())<<8*j;  
        }//for j
        switch (i) {
         case 1:VTLineAttributes =ww;VTEvent+=2;break;
@@ -388,12 +388,12 @@ uint16_t i=0,j=0;
 
 //------------------------------------------------------------------------------
 void TVTRectangle::setAID(){
- VTAttrAID[0].numAID=0;  VTAttrAID[0].byteAID=1; VTAttrAID[0].typeAID=0; VTAttrAID[0].nameAID="VTObjType";        VTAttrAID[0].valueAID=String(VTObjType);
- VTAttrAID[1].numAID=1;  VTAttrAID[1].byteAID=2; VTAttrAID[1].typeAID=1; VTAttrAID[1].nameAID="VTLineAttributes"; VTAttrAID[1].valueAID=String(VTLineAttributes);
- VTAttrAID[2].numAID=2;  VTAttrAID[2].byteAID=2; VTAttrAID[2].typeAID=1; VTAttrAID[2].nameAID="VTWidth";          VTAttrAID[2].valueAID=String(VTWidth);
- VTAttrAID[3].numAID=3;  VTAttrAID[3].byteAID=2; VTAttrAID[3].typeAID=1; VTAttrAID[3].nameAID="VTHeight";         VTAttrAID[3].valueAID=String(VTHeight);
- VTAttrAID[4].numAID=4;  VTAttrAID[4].byteAID=1; VTAttrAID[4].typeAID=1; VTAttrAID[4].nameAID="VTLineSuppression";VTAttrAID[4].valueAID=String(VTLineSuppression);
- VTAttrAID[5].numAID=5;  VTAttrAID[5].byteAID=2; VTAttrAID[5].typeAID=1; VTAttrAID[5].nameAID="VTFillAttributes"; VTAttrAID[5].valueAID=String(VTFillAttributes);
+ VTAttrAID[0].numAID=0;  VTAttrAID[0].byteAID=1; VTAttrAID[0].typeAID=0; VTAttrAID[0].nameAID="VTObjType";        VTAttrAID[0].valueAID=QString::number(VTObjType);
+ VTAttrAID[1].numAID=1;  VTAttrAID[1].byteAID=2; VTAttrAID[1].typeAID=1; VTAttrAID[1].nameAID="VTLineAttributes"; VTAttrAID[1].valueAID=QString::number(VTLineAttributes);
+ VTAttrAID[2].numAID=2;  VTAttrAID[2].byteAID=2; VTAttrAID[2].typeAID=1; VTAttrAID[2].nameAID="VTWidth";          VTAttrAID[2].valueAID=QString::number(VTWidth);
+ VTAttrAID[3].numAID=3;  VTAttrAID[3].byteAID=2; VTAttrAID[3].typeAID=1; VTAttrAID[3].nameAID="VTHeight";         VTAttrAID[3].valueAID=QString::number(VTHeight);
+ VTAttrAID[4].numAID=4;  VTAttrAID[4].byteAID=1; VTAttrAID[4].typeAID=1; VTAttrAID[4].nameAID="VTLineSuppression";VTAttrAID[4].valueAID=QString::number(VTLineSuppression);
+ VTAttrAID[5].numAID=5;  VTAttrAID[5].byteAID=2; VTAttrAID[5].typeAID=1; VTAttrAID[5].nameAID="VTFillAttributes"; VTAttrAID[5].valueAID=QString::number(VTFillAttributes);
  //
  VTAttrAID[6].numAID=6;  VTAttrAID[6].byteAID=1; VTAttrAID[6].typeAID=2; VTAttrAID[6].nameAID="VTMacros";         VTAttrAID[6].valueAID=VTMacros;
  VT_AID_Nr=7;
@@ -402,8 +402,8 @@ void TVTRectangle::setAID(){
 
 //==============================================================================
 //type=15
-boolean TVTEllipse::PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net) {
-boolean valid=(getVTObjectListSize(pVT_Net)>0),setFill=false,setPattern=false;
+bool TVTEllipse::PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net) {
+bool valid=(getVTObjectListSize(pVT_Net)>0),setFill=false,setPattern=false;
 int16_t x=pVT_Net->x, y=pVT_Net->y,x0=x,y0=y,x1=x,y1=y,sw=0,ew=180,xx=x,yy=y,ox=x,oy=y;
 uint16_t w=0,h=0,ww=w,hh=h,oLevel=pVT_Net->level;
 TVT_StartEndPoint pp;
@@ -413,8 +413,8 @@ int16_t objIdx=pVT_Net->objNr;
  setAID(); setAID_Net(pVT_Net);
   if (pViewRect==NULL) {
       if (pVT_Net->nameAttr=="VTMacros"){
-       getAID(); pVT_Net->newValueAttr=String(VTEvent);
-       pVT_Net->nameAttr=String(VTMacros);
+       getAID(); pVT_Net->newValueAttr=QString::number(VTEvent);
+       pVT_Net->nameAttr= VTMacros;
        return valid;   
       }
       if (pVT_Net->nameAttr!="") err=SetVTObjectAttributeDirect(pVT_Net->nameAttr, pVT_Net->newValueAttr,pVT_Net);
@@ -504,13 +504,13 @@ int16_t objIdx=pVT_Net->objNr;
 
 
 //------------------------------------------------------------------------------
-boolean TVTEllipse::writeToStream(TVT_Net *pVT_Net,LoopbackStream *pStream){
+bool TVTEllipse::writeToStream(TVT_Net *pVT_Net,LoopbackStream *pStream){
  return writeToStreamDirect(pVT_Net,pStream);
 };
 
 //------------------------------------------------------------------------------
-boolean TVTEllipse::readFromStream(TVT_Net *pVT_Net,LoopbackStream *pStream){
-boolean valid=(pStream->available());
+bool TVTEllipse::readFromStream(TVT_Net *pVT_Net,LoopbackStream *pStream){
+bool valid=(pStream->available());
 uint16_t i=0,j=0,nn=0;
 uint8_t  bb=0;
 uint32_t ww=0;
@@ -527,7 +527,7 @@ uint32_t ww=0;
          bb=pStream->read(); pVT_Net->streamStr.write(bb);
          ww+=(bb<<(j*8)); 
         }//for j
-       VTAttrAID[i].valueAID=String(ww);
+       VTAttrAID[i].valueAID=QString::number(ww);
     }//for i
     //
     for (i=8;i<VT_AID_Nr;i++) {
@@ -549,7 +549,7 @@ uint16_t i=0,j=0;
     for (i=1;i<VT_AID_Nr;i++){
      ww=0;
        for (j=0;j<VTAttrAID[i].valueAID.length();j++){
-        ww+=char(VTAttrAID[i].valueAID[j])<<8*j;  
+        ww+=char(VTAttrAID[i].valueAID[j].toLatin1())<<8*j;  
        }//for j
        switch (i) {
         case 1:VTLineAttributes =ww;VTEvent+=2;break;
@@ -569,14 +569,14 @@ uint16_t i=0,j=0;
 
 //------------------------------------------------------------------------------
 void TVTEllipse::setAID(){
- VTAttrAID[0].numAID=0;  VTAttrAID[0].byteAID=1; VTAttrAID[0].typeAID=0; VTAttrAID[0].nameAID="VTObjType";       VTAttrAID[0].valueAID=String(VTObjType);
- VTAttrAID[1].numAID=1;  VTAttrAID[1].byteAID=2; VTAttrAID[1].typeAID=1; VTAttrAID[1].nameAID="VTLineAttributes";VTAttrAID[1].valueAID=String(VTLineAttributes);
- VTAttrAID[2].numAID=2;  VTAttrAID[2].byteAID=2; VTAttrAID[2].typeAID=1; VTAttrAID[2].nameAID="VTWidth";         VTAttrAID[2].valueAID=String(VTWidth);
- VTAttrAID[3].numAID=3;  VTAttrAID[3].byteAID=2; VTAttrAID[3].typeAID=1; VTAttrAID[3].nameAID="VTHeight";        VTAttrAID[3].valueAID=String(VTHeight);
- VTAttrAID[4].numAID=4;  VTAttrAID[4].byteAID=1; VTAttrAID[4].typeAID=1; VTAttrAID[4].nameAID="VTEllipseType";   VTAttrAID[4].valueAID=String(VTEllipseType);
- VTAttrAID[5].numAID=5;  VTAttrAID[5].byteAID=1; VTAttrAID[5].typeAID=1; VTAttrAID[5].nameAID="VTStartAngle";    VTAttrAID[5].valueAID=String(VTStartAngle);
- VTAttrAID[6].numAID=6;  VTAttrAID[6].byteAID=1; VTAttrAID[6].typeAID=1; VTAttrAID[6].nameAID="VTEndAngle";      VTAttrAID[6].valueAID=String(VTEndAngle);
- VTAttrAID[7].numAID=7;  VTAttrAID[7].byteAID=2; VTAttrAID[7].typeAID=1; VTAttrAID[7].nameAID="VTFillAttributes";VTAttrAID[7].valueAID=String(VTFillAttributes);
+ VTAttrAID[0].numAID=0;  VTAttrAID[0].byteAID=1; VTAttrAID[0].typeAID=0; VTAttrAID[0].nameAID="VTObjType";       VTAttrAID[0].valueAID=QString::number(VTObjType);
+ VTAttrAID[1].numAID=1;  VTAttrAID[1].byteAID=2; VTAttrAID[1].typeAID=1; VTAttrAID[1].nameAID="VTLineAttributes";VTAttrAID[1].valueAID=QString::number(VTLineAttributes);
+ VTAttrAID[2].numAID=2;  VTAttrAID[2].byteAID=2; VTAttrAID[2].typeAID=1; VTAttrAID[2].nameAID="VTWidth";         VTAttrAID[2].valueAID=QString::number(VTWidth);
+ VTAttrAID[3].numAID=3;  VTAttrAID[3].byteAID=2; VTAttrAID[3].typeAID=1; VTAttrAID[3].nameAID="VTHeight";        VTAttrAID[3].valueAID=QString::number(VTHeight);
+ VTAttrAID[4].numAID=4;  VTAttrAID[4].byteAID=1; VTAttrAID[4].typeAID=1; VTAttrAID[4].nameAID="VTEllipseType";   VTAttrAID[4].valueAID=QString::number(VTEllipseType);
+ VTAttrAID[5].numAID=5;  VTAttrAID[5].byteAID=1; VTAttrAID[5].typeAID=1; VTAttrAID[5].nameAID="VTStartAngle";    VTAttrAID[5].valueAID=QString::number(VTStartAngle);
+ VTAttrAID[6].numAID=6;  VTAttrAID[6].byteAID=1; VTAttrAID[6].typeAID=1; VTAttrAID[6].nameAID="VTEndAngle";      VTAttrAID[6].valueAID=QString::number(VTEndAngle);
+ VTAttrAID[7].numAID=7;  VTAttrAID[7].byteAID=2; VTAttrAID[7].typeAID=1; VTAttrAID[7].nameAID="VTFillAttributes";VTAttrAID[7].valueAID=QString::number(VTFillAttributes);
  //
  VTAttrAID[8].numAID=8;  VTAttrAID[8].byteAID=1; VTAttrAID[8].typeAID=2; VTAttrAID[8].nameAID="VTMacros";         VTAttrAID[8].valueAID=VTMacros;
  VT_AID_Nr=9;
@@ -585,8 +585,8 @@ void TVTEllipse::setAID(){
 
 //==============================================================================
 //type=15
-boolean TVTPolygon::PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net) {
-boolean valid=(getVTObjectListSize(pVT_Net)>0),setFill=false;
+bool TVTPolygon::PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net) {
+bool valid=(getVTObjectListSize(pVT_Net)>0),setFill=false;
 uint8_t optn=0,aIdx=2,bb[2]={0,0};
 int16_t x=pVT_Net->x, y=pVT_Net->y;
 uint16_t w=0,h=0,i=0,oLevel=pVT_Net->level;
@@ -596,8 +596,8 @@ uint8_t* buff=pVT_Net->streamStr.getBuffer();
  setAID(); setAID_Net(pVT_Net);
   if (pViewRect==NULL) {
       if (pVT_Net->nameAttr=="VTMacros"){
-       getAID(); pVT_Net->newValueAttr=String(VTEvent);
-       pVT_Net->nameAttr=String(VTMacros);
+       getAID(); pVT_Net->newValueAttr=QString::number(VTEvent);
+       pVT_Net->nameAttr= VTMacros;
        return valid;   
       }
       if (pVT_Net->nameAttr!="") err=SetVTObjectAttributeDirect(pVT_Net->nameAttr, pVT_Net->newValueAttr,pVT_Net);
@@ -673,13 +673,13 @@ uint8_t optn=pVT_Net->options;
 
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
-boolean TVTPolygon::writeToStream(TVT_Net *pVT_Net,LoopbackStream *pStream){
+bool TVTPolygon::writeToStream(TVT_Net *pVT_Net,LoopbackStream *pStream){
  return writeToStreamDirect(pVT_Net,pStream);
 };
 
 //------------------------------------------------------------------------------
-boolean TVTPolygon::readFromStream(TVT_Net *pVT_Net,LoopbackStream *pStream){
-boolean valid=(pStream->available());
+bool TVTPolygon::readFromStream(TVT_Net *pVT_Net,LoopbackStream *pStream){
+bool valid=(pStream->available());
 uint16_t i=0,j=0,nn=0;
 uint8_t  bb=0;
 uint32_t ww=0;
@@ -696,7 +696,7 @@ uint32_t ww=0;
          bb=pStream->read(); pVT_Net->streamStr.write(bb);
          ww+=(bb<<(j*8)); 
         }//for j
-       VTAttrAID[i].valueAID=String(ww);
+       VTAttrAID[i].valueAID=QString::number(ww);
     }//for i
     //
     for (i=6;i<VT_AID_Nr;i++) {
@@ -718,7 +718,7 @@ uint16_t i=0,j=0;
     for (i=1;i<VT_AID_Nr;i++){
      ww=0;
        for (j=0;j<VTAttrAID[i].valueAID.length();j++){
-        ww+=char(VTAttrAID[i].valueAID[j])<<8*j;  
+        ww+=char(VTAttrAID[i].valueAID[j].toLatin1())<<8*j;  
        }//for j
        switch (i) {
         case 1:VTWidth      =ww;VTEvent+=2;break;
@@ -738,12 +738,12 @@ uint16_t i=0,j=0;
 
 //------------------------------------------------------------------------------
 void TVTPolygon::setAID(){
- VTAttrAID[0].numAID=0;  VTAttrAID[0].byteAID=1; VTAttrAID[0].typeAID=0; VTAttrAID[0].nameAID="VTObjType";       VTAttrAID[0].valueAID=String(VTObjType);
- VTAttrAID[1].numAID=1;  VTAttrAID[1].byteAID=2; VTAttrAID[1].typeAID=1; VTAttrAID[1].nameAID="VTWidth";         VTAttrAID[1].valueAID=String(VTWidth);
- VTAttrAID[2].numAID=2;  VTAttrAID[2].byteAID=2; VTAttrAID[2].typeAID=1; VTAttrAID[2].nameAID="VTHeight";        VTAttrAID[2].valueAID=String(VTHeight);
- VTAttrAID[3].numAID=3;  VTAttrAID[3].byteAID=2; VTAttrAID[3].typeAID=1; VTAttrAID[3].nameAID="VTLineAttributes";VTAttrAID[3].valueAID=String(VTLineAttributes);
- VTAttrAID[4].numAID=4;  VTAttrAID[4].byteAID=2; VTAttrAID[4].typeAID=1; VTAttrAID[4].nameAID="VTFillAttributes";VTAttrAID[4].valueAID=String(VTFillAttributes);
- VTAttrAID[5].numAID=5;  VTAttrAID[5].byteAID=1; VTAttrAID[5].typeAID=1; VTAttrAID[5].nameAID="VTPolygonType";   VTAttrAID[5].valueAID=String(VTPolygonType);
+ VTAttrAID[0].numAID=0;  VTAttrAID[0].byteAID=1; VTAttrAID[0].typeAID=0; VTAttrAID[0].nameAID="VTObjType";       VTAttrAID[0].valueAID=QString::number(VTObjType);
+ VTAttrAID[1].numAID=1;  VTAttrAID[1].byteAID=2; VTAttrAID[1].typeAID=1; VTAttrAID[1].nameAID="VTWidth";         VTAttrAID[1].valueAID=QString::number(VTWidth);
+ VTAttrAID[2].numAID=2;  VTAttrAID[2].byteAID=2; VTAttrAID[2].typeAID=1; VTAttrAID[2].nameAID="VTHeight";        VTAttrAID[2].valueAID=QString::number(VTHeight);
+ VTAttrAID[3].numAID=3;  VTAttrAID[3].byteAID=2; VTAttrAID[3].typeAID=1; VTAttrAID[3].nameAID="VTLineAttributes";VTAttrAID[3].valueAID=QString::number(VTLineAttributes);
+ VTAttrAID[4].numAID=4;  VTAttrAID[4].byteAID=2; VTAttrAID[4].typeAID=1; VTAttrAID[4].nameAID="VTFillAttributes";VTAttrAID[4].valueAID=QString::number(VTFillAttributes);
+ VTAttrAID[5].numAID=5;  VTAttrAID[5].byteAID=1; VTAttrAID[5].typeAID=1; VTAttrAID[5].nameAID="VTPolygonType";   VTAttrAID[5].valueAID=QString::number(VTPolygonType);
  //
  VTAttrAID[6].numAID=6;  VTAttrAID[6].byteAID=1; VTAttrAID[6].typeAID=2; VTAttrAID[6].nameAID="VTPoints";         VTAttrAID[6].valueAID=VTPoints;
  VTAttrAID[7].numAID=7;  VTAttrAID[7].byteAID=1; VTAttrAID[7].typeAID=2; VTAttrAID[7].nameAID="VTMacros";         VTAttrAID[7].valueAID=VTMacros;

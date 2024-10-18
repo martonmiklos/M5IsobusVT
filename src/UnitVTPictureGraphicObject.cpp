@@ -10,14 +10,14 @@
 #ifndef UnitVTPictureGraphicObject_h
   #define UnitVTPictureGraphicObject_h
   #include "UnitVTPictureGraphicObject.h"
-#endif 
+#endif
 
-
+#include <math.h>
 
 //==============================================================================
 //type=20
-boolean TVTPictureGraphic::PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net) {
-boolean  valid=(getVTObjectListSize(pVT_Net)>0);
+bool TVTPictureGraphic::PaintObjTo(TVT_ViewRect *pViewRect,TVT_Net *pVT_Net) {
+bool  valid=(getVTObjectListSize(pVT_Net)>0);
 int16_t  x=pVT_Net->x, y=pVT_Net->y;
 uint16_t ws=0,wa=0,ha=0,oLevel=pVT_Net->level;
 uint8_t err=0x00;
@@ -25,8 +25,8 @@ int16_t objIdx=pVT_Net->objNr;
  setAID(); setAID_Net(pVT_Net);
   if (pViewRect==NULL) {
       if (pVT_Net->nameAttr=="VTMacros"){
-       getAID(); pVT_Net->newValueAttr=String(VTEvent);
-       pVT_Net->nameAttr=String(VTMacros);
+       getAID(); pVT_Net->newValueAttr=QString::number(VTEvent);
+       pVT_Net->nameAttr= VTMacros;
        return valid;   
       }
       if (pVT_Net->nameAttr!="") err=SetVTObjectAttributeDirect(pVT_Net->nameAttr, pVT_Net->newValueAttr,pVT_Net);
@@ -60,7 +60,7 @@ int16_t objIdx=pVT_Net->objNr;
           //TEST
           //drawBmp("/parrot.bmp", x, y,pVT_Net);
         } else{
-          Set_fillRect(pVT_Net,x,y,w,h,TFT_LIGHTGREY);
+          Set_fillRect(pVT_Net,x,y,w,h, 0/* FIXME TFT_LIGHTGREY*/);
         }
     }//>0
     //
@@ -72,14 +72,14 @@ int16_t objIdx=pVT_Net->objNr;
 
 
 //------------------------------------------------------------------------------
-boolean TVTPictureGraphic::writeToStream(TVT_Net *pVT_Net,LoopbackStream *pStream){
+bool TVTPictureGraphic::writeToStream(TVT_Net *pVT_Net,LoopbackStream *pStream){
  return writeToStreamDirect(pVT_Net,pStream);
 };
 
 
 //------------------------------------------------------------------------------
-boolean TVTPictureGraphic::readFromStream(TVT_Net *pVT_Net,LoopbackStream *pStream){
-boolean valid=(pStream->available());
+bool TVTPictureGraphic::readFromStream(TVT_Net *pVT_Net,LoopbackStream *pStream){
+bool valid=(pStream->available());
 uint16_t i=0,j=0;
 uint8_t  bb=0;
 uint32_t ww=0,nn=0;
@@ -96,7 +96,7 @@ uint32_t ww=0,nn=0;
          bb=pStream->read(); pVT_Net->streamStr.write(bb);
          ww+=(bb<<(j*8)); 
         }//for j
-       VTAttrAID[i].valueAID=String(ww);
+       VTAttrAID[i].valueAID=QString::number(ww);
     }//for i
     //
     for (i=7;i<VT_AID_Nr;i++) {
@@ -114,8 +114,8 @@ uint32_t ww=0,nn=0;
 };
 
 //------------------------------------------------------------------------------
-boolean TVTPictureGraphic::readPictureFromStream(TVT_Net *pVT_Net,uint32_t bCount,LoopbackStream *pStream){
-boolean valid=(bCount<=pStream->available());
+bool TVTPictureGraphic::readPictureFromStream(TVT_Net *pVT_Net,uint32_t bCount,LoopbackStream *pStream){
+bool valid=(bCount<=pStream->available());
 uint8_t* pbuff=pStream->getBuffer();
 uint32_t pPos=pStream->getPos();
   if (valid){
@@ -135,7 +135,7 @@ uint16_t i=0,j=0;
     for (i=1;i<VT_AID_Nr;i++){
      ww=0;
        for (j=0;j<VTAttrAID[i].valueAID.length();j++){
-        ww+=char(VTAttrAID[i].valueAID[j])<<8*j;  
+        ww+=char(VTAttrAID[i].valueAID[j].toLatin1())<<8*j;  
        }//for j
        switch (i) {
         case 1:VTWidth          =ww;VTEvent+=2;break;
@@ -157,13 +157,13 @@ uint16_t i=0,j=0;
 
 //------------------------------------------------------------------------------
 void TVTPictureGraphic::setAID(){
- VTAttrAID[0].numAID=0;  VTAttrAID[0].byteAID=1; VTAttrAID[0].typeAID=0; VTAttrAID[0].nameAID="VTObjType";        VTAttrAID[0].valueAID=String(VTObjType);
- VTAttrAID[1].numAID=1;  VTAttrAID[1].byteAID=2; VTAttrAID[1].typeAID=1; VTAttrAID[1].nameAID="VTWidth";          VTAttrAID[1].valueAID=String(VTWidth);
- VTAttrAID[2].numAID=4;  VTAttrAID[2].byteAID=2; VTAttrAID[2].typeAID=0; VTAttrAID[2].nameAID="VTActualWidth";    VTAttrAID[2].valueAID=String(VTActualWidth);
- VTAttrAID[3].numAID=5;  VTAttrAID[3].byteAID=2; VTAttrAID[3].typeAID=0; VTAttrAID[3].nameAID="VTActualHeight";   VTAttrAID[3].valueAID=String(VTActualHeight);
- VTAttrAID[4].numAID=6;  VTAttrAID[4].byteAID=1; VTAttrAID[4].typeAID=0; VTAttrAID[4].nameAID="VTFormat";         VTAttrAID[4].valueAID=String(VTFormat);
- VTAttrAID[5].numAID=2;  VTAttrAID[5].byteAID=1; VTAttrAID[5].typeAID=1; VTAttrAID[5].nameAID="VTOptions";        VTAttrAID[5].valueAID=String(VTOptions);
- VTAttrAID[6].numAID=3;  VTAttrAID[6].byteAID=1; VTAttrAID[6].typeAID=1; VTAttrAID[6].nameAID="VTTransparencyColour"; VTAttrAID[6].valueAID=String(VTTransparencyColour);
+ VTAttrAID[0].numAID=0;  VTAttrAID[0].byteAID=1; VTAttrAID[0].typeAID=0; VTAttrAID[0].nameAID="VTObjType";        VTAttrAID[0].valueAID=QString::number(VTObjType);
+ VTAttrAID[1].numAID=1;  VTAttrAID[1].byteAID=2; VTAttrAID[1].typeAID=1; VTAttrAID[1].nameAID="VTWidth";          VTAttrAID[1].valueAID=QString::number(VTWidth);
+ VTAttrAID[2].numAID=4;  VTAttrAID[2].byteAID=2; VTAttrAID[2].typeAID=0; VTAttrAID[2].nameAID="VTActualWidth";    VTAttrAID[2].valueAID=QString::number(VTActualWidth);
+ VTAttrAID[3].numAID=5;  VTAttrAID[3].byteAID=2; VTAttrAID[3].typeAID=0; VTAttrAID[3].nameAID="VTActualHeight";   VTAttrAID[3].valueAID=QString::number(VTActualHeight);
+ VTAttrAID[4].numAID=6;  VTAttrAID[4].byteAID=1; VTAttrAID[4].typeAID=0; VTAttrAID[4].nameAID="VTFormat";         VTAttrAID[4].valueAID=QString::number(VTFormat);
+ VTAttrAID[5].numAID=2;  VTAttrAID[5].byteAID=1; VTAttrAID[5].typeAID=1; VTAttrAID[5].nameAID="VTOptions";        VTAttrAID[5].valueAID=QString::number(VTOptions);
+ VTAttrAID[6].numAID=3;  VTAttrAID[6].byteAID=1; VTAttrAID[6].typeAID=1; VTAttrAID[6].nameAID="VTTransparencyColour"; VTAttrAID[6].valueAID=QString::number(VTTransparencyColour);
  //
  VTAttrAID[7].numAID=7;  VTAttrAID[7].byteAID=4; VTAttrAID[7].typeAID=2; VTAttrAID[7].nameAID="VTPicData";        VTAttrAID[7].valueAID=VTPicData;
  VTAttrAID[8].numAID=8;  VTAttrAID[8].byteAID=1; VTAttrAID[8].typeAID=2; VTAttrAID[8].nameAID="VTMacros";         VTAttrAID[8].valueAID=VTMacros;
